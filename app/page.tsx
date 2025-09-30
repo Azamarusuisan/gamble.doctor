@@ -45,39 +45,46 @@ const faqHighlights = [
 export default function HomePage() {
   return (
     <div>
-      <section className="mx-auto w-full max-w-7xl px-6 py-10 sm:px-8 lg:px-12 lg:py-14">
-        <div className="grid items-center gap-8 md:grid-cols-2 lg:gap-14">
-          <div className="max-w-2xl">
-            <span className="inline-flex items-center rounded-full bg-brand-light px-3 py-1 text-xs font-semibold text-brand-teal">
+      {/* Hero Section with Background Image */}
+      <section className="relative bg-slate-900 text-white bg-[url('/images/team-hero.jpg')] bg-cover bg-center">
+        {/* Overlay for readability */}
+        <div className="absolute inset-0 bg-slate-900/40" />
+
+        <div className="relative mx-auto w-full max-w-7xl px-4 py-24 sm:px-6 md:px-8 md:py-28 lg:px-12">
+          <div className="max-w-2xl animate-fade-in">
+            <span className="inline-flex items-center rounded-full bg-emerald-500/20 px-4 py-2 text-sm font-semibold text-emerald-100 border border-emerald-400/30 backdrop-blur-sm">
               ギャンブル依存症オンライン外来
             </span>
-            <h1 className="mt-4 max-w-[640px] text-3xl font-bold leading-relaxed text-brand-blue md:text-4xl md:leading-relaxed">
-              ご本人もご家族も、オンラインで<br className="hidden md:inline" />受診・相談できる専門外来
+            <h1 className="mt-8 text-5xl font-bold leading-tight text-white md:text-6xl lg:text-7xl" style={{ letterSpacing: '-0.02em' }}>
+              ご本人もご家族も、<br />オンラインで<br className="md:hidden" />受診・相談できる<br />専門外来
             </h1>
-            <div className="mt-4 max-w-[680px] space-y-4">
-              <p className="text-base leading-loose text-slate-600 md:text-lg md:leading-loose">
-                ギャンブル依存症に特化したオンライン診療サービスです。<br className="hidden md:inline" />匿名相談から予約、セルフチェック、お支払いまで、<br className="hidden md:inline" />すべてを一連の流れで完了できます。
-              </p>
-            </div>
-            <div className="mt-7 flex flex-wrap gap-3">
-              <Link href="/book" className="btn-primary">
+            <p className="mt-8 text-[18px] leading-8 text-white/90 max-w-xl">
+              ギャンブル依存症に特化したオンライン診療サービスです。
+              匿名相談から予約、セルフチェック、お支払いまで、
+              すべてを一連の流れで完了できます。
+            </p>
+            <div className="mt-10 flex flex-wrap gap-4">
+              <Link href="/book" className="inline-flex items-center justify-center rounded-full bg-white px-8 py-4 font-semibold text-slate-900 transition-all duration-200 hover:bg-gray-100 hover:scale-[0.98] shadow-lg">
                 予約する
               </Link>
-              <Link href="/family" className="btn-secondary">
+              <Link href="/family" className="inline-flex items-center justify-center rounded-full border-2 border-white/60 px-8 py-4 font-semibold text-white transition-all duration-200 hover:bg-white/10 hover:border-white hover:scale-[0.98]">
                 ご家族の方はまず相談
               </Link>
             </div>
-          </div>
-          <div className="relative flex justify-center md:justify-end">
-            <div className="w-full max-w-[560px] overflow-hidden rounded-3xl shadow-lg">
-              <Image
-                src="/images/team-hero.jpg"
-                alt="自宅でオンライン相談を準備する男性"
-                width={768}
-                height={768}
-                className="h-[344px] w-full object-cover object-center"
-                priority
-              />
+            {/* 3ピル */}
+            <div className="mt-12 flex flex-wrap gap-6 text-sm text-white/80">
+              <div className="flex items-center gap-2">
+                <span className="text-lg">🔒</span>
+                <span>完全匿名OK</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-lg">📅</span>
+                <span>24時間予約可能</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-lg">👥</span>
+                <span>家族のみ相談OK</span>
+              </div>
             </div>
           </div>
         </div>
