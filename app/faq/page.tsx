@@ -72,22 +72,22 @@ export default function FAQPage() {
           ))}
         </select>
       </div>
-      <div className="mt-10 space-y-4">
-        {filtered.map((item) => (
-          <details key={item.question} className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-            <summary className="cursor-pointer text-base font-semibold text-brand-blue">{item.question}</summary>
-            <p className="mt-3 text-sm text-slate-600">{item.answer}</p>
-            <span className="mt-2 inline-block rounded-full bg-brand-light px-3 py-1 text-xs font-semibold text-brand-teal">
+      <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {filtered.map((item, index) => (
+          <div key={item.question} className="card animate-fade-in" style={{ animationDelay: `${index * 60}ms` }}>
+            <span className="inline-block rounded-full bg-brand-light px-3 py-1 text-xs font-semibold text-brand-teal mb-3">
               {item.category}
             </span>
-          </details>
+            <h3 className="text-lg font-semibold text-slate-900 mb-3">{item.question}</h3>
+            <p className="text-[15px] leading-relaxed text-slate-600">{item.answer}</p>
+          </div>
         ))}
-        {filtered.length === 0 ? (
-          <p className="rounded-3xl border border-dashed border-brand-teal bg-white p-6 text-sm text-slate-600">
-            該当する質問が見つかりませんでした。匿名相談フォームから直接お問い合わせください。
-          </p>
-        ) : null}
       </div>
+      {filtered.length === 0 ? (
+        <p className="mt-10 rounded-3xl border border-dashed border-brand-teal bg-white p-6 text-sm text-slate-600">
+          該当する質問が見つかりませんでした。匿名相談フォームから直接お問い合わせください。
+        </p>
+      ) : null}
     </div>
   );
 }
