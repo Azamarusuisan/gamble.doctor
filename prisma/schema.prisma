@@ -1,0 +1,98 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Patient {
+  id           String        @id @default(cuid())
+  name         String
+  kana         String?
+  email        String
+  phone        String?
+  dob          DateTime?
+  isFamily     Boolean       @default(false)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  appointments Appointment[]
+  screenings   Screening[]
+  consents     Consent[]
+}
+
+model Inquiry {
+  id        String        @id @default(cuid())
+  nickname  String
+  email     String?
+  sms       String?
+  role      String
+  message   String
+  channel   String
+  createdAt DateTime       @default(now())
+  handled   Boolean        @default(false)
+  auditLogs AuditLog[]
+}
+
+model Slot {
+  id         String         @id @default(cuid())
+  start      DateTime
+  end        DateTime
+  status     String         @default("available")
+  note       String?
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+  appointment Appointment?
+}
+
+model Appointment {
+  id         String        @id @default(cuid())
+  patientId  String
+  slotId     String        @unique
+  type       String
+  status     String        @default("booked")
+  videoUrl   String?
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+  Patient    Patient       @relation(fields: [patientId], references: [id])
+  Slot       Slot          @relation(fields: [slotId], references: [id])
+  consents   Consent[]
+  auditLogs  AuditLog[]
+}
+
+model Screening {
+  id        String    @id @default(cuid())
+  patientId String?
+  score     Int
+  answers   String
+  risk      String
+  createdAt DateTime  @default(now())
+  Patient   Patient?  @relation(fields: [patientId], references: [id])
+}
+
+model Consent {
+  id            String        @id @default(cuid())
+  patientId     String?
+  appointmentId String?
+  type          String
+  version       String
+  acceptedAt    DateTime      @default(now())
+  ip            String?
+  ua            String?
+  Patient       Patient?      @relation(fields: [patientId], references: [id])
+  Appointment   Appointment?  @relation(fields: [appointmentId], references: [id])
+}
+
+model AuditLog {
+  id            String        @id @default(cuid())
+  actorId       String?
+  action        String
+  target        String?
+  meta          String?
+  appointmentId String?
+  inquiryId     String?
+  createdAt     DateTime      @default(now())
+  appointment   Appointment?  @relation(fields: [appointmentId], references: [id])
+  inquiry       Inquiry?      @relation(fields: [inquiryId], references: [id])
+}

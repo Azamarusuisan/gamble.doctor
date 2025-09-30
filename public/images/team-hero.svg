@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 768 512" role="img" aria-labelledby="title desc">
+  <title id="title">ギャンブルドクターのチームイラスト</title>
+  <desc id="desc">落ち着いたブルーとグリーンの円とラインで表現されたチームのシルエット</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#e4f1ef" />
+      <stop offset="100%" stop-color="#c7e0dd" />
+    </linearGradient>
+    <linearGradient id="halo" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.55)" />
+      <stop offset="100%" stop-color="rgba(255,255,255,0)" />
+    </linearGradient>
+  </defs>
+  <rect width="768" height="512" fill="url(#bg)" rx="36" />
+  <g opacity="0.45">
+    <circle cx="384" cy="256" r="210" fill="none" stroke="url(#halo)" stroke-width="6" />
+    <circle cx="384" cy="256" r="260" fill="none" stroke="url(#halo)" stroke-width="6" />
+  </g>
+  <g transform="translate(95 180)" fill="#0f4c81" opacity="0.12">
+    <circle cx="120" cy="120" r="120" />
+    <circle cx="420" cy="150" r="150" />
+    <circle cx="600" cy="80" r="110" />
+  </g>
+  <g transform="translate(140 140)">
+    <g transform="translate(0 40)">
+      <circle cx="36" cy="44" r="36" fill="#6fb1a5" />
+      <rect x="12" y="80" width="48" height="86" rx="20" fill="#2d8a7a" />
+    </g>
+    <g transform="translate(112 0)">
+      <circle cx="48" cy="48" r="48" fill="#9fc7be" />
+      <rect x="16" y="96" width="64" height="112" rx="28" fill="#2d8a7a" />
+    </g>
+    <g transform="translate(240 -12)">
+      <circle cx="56" cy="56" r="56" fill="#7aa6bf" />
+      <rect x="20" y="112" width="72" height="132" rx="30" fill="#0f4c81" />
+    </g>
+    <g transform="translate(380 8)">
+      <circle cx="52" cy="52" r="52" fill="#9fc7be" />
+      <rect x="18" y="104" width="68" height="118" rx="28" fill="#2d8a7a" />
+    </g>
+    <g transform="translate(500 28)">
+      <circle cx="44" cy="44" r="44" fill="#6fb1a5" />
+      <rect x="14" y="88" width="60" height="106" rx="24" fill="#0f4c81" />
+    </g>
+  </g>
+  <g opacity="0.5" transform="translate(160 360)">
+    <ellipse cx="64" cy="40" rx="64" ry="18" fill="#dbe9e7" />
+    <ellipse cx="208" cy="44" rx="72" ry="20" fill="#dbe9e7" />
+    <ellipse cx="360" cy="38" rx="68" ry="18" fill="#dbe9e7" />
+    <ellipse cx="520" cy="42" rx="60" ry="19" fill="#dbe9e7" />
+  </g>
+</svg>

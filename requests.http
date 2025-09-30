@@ -1,0 +1,64 @@
+### Health
+GET http://localhost:3000/api/health
+
+### Version
+GET http://localhost:3000/api/version
+
+### Create Inquiry
+POST http://localhost:3000/api/inquiries
+Content-Type: application/json
+
+{
+  "nickname": "ゲスト",
+  "email": "guest@example.com",
+  "role": "本人",
+  "message": "ギャンブルの相談です。詳しい対応を聞きたいです",
+  "channel": "メール"
+}
+
+### List Slots
+GET http://localhost:3000/api/slots?status=available
+
+### Create Appointment
+POST http://localhost:3000/api/appointments
+Content-Type: application/json
+
+{
+  "patient": {
+    "name": "山田 太郎",
+    "email": "yamada@example.com"
+  },
+  "slotId": "{{replace_with_slot_id}}",
+  "type": "初診",
+  "consents": [
+    { "type": "privacy", "version": "v1" },
+    { "type": "telemedicine", "version": "v1" }
+  ]
+}
+
+### Demo Payment
+POST http://localhost:3000/api/payments/pay
+Content-Type: application/json
+
+{
+  "appointmentId": "{{replace_with_appointment_id}}",
+  "amount": 5500,
+  "currency": "JPY",
+  "method": "card_demo",
+  "payer": { "name": "山田 太郎", "email": "yamada@example.com" }
+}
+
+### Admin Login
+POST http://localhost:3000/api/admin/login
+Content-Type: application/json
+
+{
+  "email": "doctor@example.com",
+  "password": "demoadmin"
+}
+
+### Admin Overview
+GET http://localhost:3000/api/admin/overview
+
+### Admin Export CSV
+GET http://localhost:3000/api/admin/export/csv

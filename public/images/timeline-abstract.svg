@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 220" role="img" aria-labelledby="timelineTitle timelineDesc">
+  <title id="timelineTitle">診療タイムラインの装飾</title>
+  <desc id="timelineDesc">青と緑のラインが弧を描く抽象的なタイムラインの図</desc>
+  <defs>
+    <linearGradient id="timeline-line" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#0f4c81" />
+      <stop offset="100%" stop-color="#2d8a7a" />
+    </linearGradient>
+    <linearGradient id="timeline-fill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e7f2f0" />
+      <stop offset="100%" stop-color="#ffffff" />
+    </linearGradient>
+  </defs>
+  <rect width="640" height="220" rx="32" fill="url(#timeline-fill)" />
+  <path d="M40 150 C140 40 300 40 420 150 S600 220 620 120" fill="none" stroke="url(#timeline-line)" stroke-width="14" stroke-linecap="round" opacity="0.55" />
+  <path d="M40 170 C160 60 320 60 440 170 S620 240 640 140" fill="none" stroke="#9fc7be" stroke-width="8" stroke-linecap="round" opacity="0.35" />
+  <g fill="#0f4c81" opacity="0.65">
+    <circle cx="120" cy="120" r="10" />
+    <circle cx="240" cy="84" r="10" />
+    <circle cx="352" cy="104" r="10" />
+    <circle cx="468" cy="162" r="10" />
+    <circle cx="560" cy="136" r="10" />
+  </g>
+  <g fill="#2d8a7a" opacity="0.24">
+    <circle cx="200" cy="170" r="34" />
+    <circle cx="360" cy="60" r="48" />
+    <circle cx="520" cy="180" r="40" />
+  </g>
+</svg>
