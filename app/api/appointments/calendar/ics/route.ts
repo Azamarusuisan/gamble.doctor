@@ -177,7 +177,7 @@ export async function POST(req: NextRequest) {
     }
 
     // 複数の予約を含むiCalendarファイルを生成
-    const icsEvents = appointments.map(appointment => {
+    const icsEvents = appointments.map((appointment: any) => {
       const startDate = new Date(appointment.slot.start);
       const endDate = new Date(appointment.slot.end);
 

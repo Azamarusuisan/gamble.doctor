@@ -56,7 +56,7 @@ export async function POST(req: NextRequest) {
     }
 
     // トランザクションでキャンセル処理
-    const result = await prisma.$transaction(async (tx) => {
+    const result = await prisma.$transaction(async (tx: any) => {
       // 予約をキャンセル状態に更新
       const canceledAppointment = await tx.appointment.update({
         where: { id: appointmentId },

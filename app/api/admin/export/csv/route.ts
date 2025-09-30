@@ -31,7 +31,7 @@ export async function GET() {
 
   const rows = [
     ["id", "patient", "email", "status", "slot_start", "slot_end", "created_at"],
-    ...appointments.map((appt) => [
+    ...appointments.map((appt: any) => [
       appt.id,
       appt.Patient.name,
       appt.Patient.email,
@@ -42,7 +42,7 @@ export async function GET() {
     ])
   ];
 
-  const csv = rows.map((row) => row.map((value) => `"${String(value).replace(/"/g, '""')}"`).join(",")).join("\n");
+  const csv = rows.map((row) => row.map((value: any) => `"${String(value).replace(/"/g, '""')}"`).join(",")).join("\n");
 
   return new Response(csv, {
     status: 200,

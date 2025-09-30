@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { eachDayOfInterval, addMinutes, eachMinuteOfInterval, set, subMinutes } from "date-fns";
-import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
+import { toZonedTime, fromZonedTime } from "date-fns-tz";
 import { prisma } from "@/lib/db";
 import { requireAdminSession } from "@/lib/session";
 import { AdminSlotGenerateSchema } from "@/lib/validation";
@@ -11,8 +11,8 @@ const TZ = process.env.APP_TZ ?? "Asia/Tokyo";
 function buildSlots(startDate: string, endDate: string, template: Array<{ start: string; end: string }>) {
   const start = new Date(`${startDate}T00:00:00${TZ === "Asia/Tokyo" ? "+09:00" : "Z"}`);
   const end = new Date(`${endDate}T00:00:00${TZ === "Asia/Tokyo" ? "+09:00" : "Z"}`);
-  const zonedStart = utcToZonedTime(start, TZ);
-  const zonedEnd = utcToZonedTime(end, TZ);
+  const zonedStart = toZonedTime(start, TZ);
+  const zonedEnd = toZonedTime(end, TZ);
 
   const days = eachDayOfInterval({ start: zonedStart, end: zonedEnd });
 
@@ -35,8 +35,8 @@ function buildSlots(startDate: string, endDate: string, template: Array<{ start:
 
       for (const startTime of startTimes) {
         slots.push({
-          start: zonedTimeToUtc(startTime, TZ),
-          end: zonedTimeToUtc(addMinutes(startTime, 30), TZ)
+          start: fromZonedTime(startTime, TZ),
+          end: fromZonedTime(addMinutes(startTime, 30), TZ)
         });
       }
     }
@@ -64,10 +64,10 @@ export async function POST(request: NextRequest) {
     return errorResponse(400, "VALIDATION_ERROR", "入力内容を確認してください", parsed.error.flatten().fieldErrors);
   }
 
-  const slotsToCreate = buildSlots(parsed.data.startDate, parsed.data.endDate, parsed.data.template);
+  const slotsToCreate = buildSlots(parsed.data.startDate, parsed.data.endDate, parsed.data.template as Array<{ start: string; end: string }>);
   let created = 0;
 
-  await prisma.$transaction(async (tx) => {
+  await prisma.$transaction(async (tx: any) => {
     for (const slot of slotsToCreate) {
       const exists = await tx.slot.findFirst({ where: { start: slot.start } });
       if (exists) continue;

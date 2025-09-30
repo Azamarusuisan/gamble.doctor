@@ -28,7 +28,7 @@ export async function GET(req: NextRequest) {
     });
 
     // リマインダー送信処理（実際の実装では外部サービスと連携）
-    const reminders = appointments.map(async (appointment) => {
+    const reminders = appointments.map(async (appointment: any) => {
       const reminderData = {
         appointmentId: appointment.id,
         patientName: appointment.patient.name,

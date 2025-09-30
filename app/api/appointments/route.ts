@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { prisma } from "@/lib/db";
+import { mockSlots, mockAppointments } from "@/lib/mock-data";
 import { AppointmentCreateSchema } from "@/lib/validation";
 import { checkRateLimit } from "@/lib/rate-limit";
 import { errorResponse, ok } from "@/lib/http";
@@ -48,64 +48,48 @@ export async function POST(request: NextRequest) {
   const input = parsed.data;
 
   try {
-    const result = await prisma.$transaction(async (tx) => {
-      const slot = await tx.slot.findUnique({ where: { id: input.slotId } });
-      if (!slot) {
-        throw new Error("NOT_FOUND");
-      }
-      if (slot.status !== SLOT_STATUS_AVAILABLE) {
-        throw new Error("CONFLICT");
-      }
+    // モックデータでスロットを検索
+    const slot = mockSlots.find(s => s.id === input.slotId);
+    if (!slot) {
+      throw new Error("NOT_FOUND");
+    }
+    if (slot.isBooked || !slot.isAvailable) {
+      throw new Error("CONFLICT");
+    }
 
-      const patient = await tx.patient.create({
-        data: {
-          name: input.patient.name,
-          kana: input.patient.kana,
-          email: input.patient.email,
-          phone: input.patient.phone,
-          dob: input.patient.dob ? new Date(`${input.patient.dob}T00:00:00+09:00`) : undefined,
-          isFamily: input.patient.isFamily ?? false
-        }
-      });
+    // モック患者とアポイントメントを作成
+    const patient = {
+      id: `patient_${Date.now()}`,
+      name: input.patient.name,
+      email: input.patient.email,
+      phone: input.patient.phone,
+      dateOfBirth: input.patient.dob ? new Date(`${input.patient.dob}T00:00:00+09:00`) : new Date(),
+      address: "",
+      emergencyContact: "",
+      createdAt: new Date()
+    };
 
-      const appointment = await tx.appointment.create({
-        data: {
-          patientId: patient.id,
-          slotId: slot.id,
-          type: typeMap[input.type],
-          status: SLOT_STATUS_BOOKED
-        }
-      });
+    const appointment = {
+      id: `appt_${Date.now()}`,
+      patientId: patient.id,
+      doctorId: slot.doctorId,
+      slotId: slot.id,
+      status: "confirmed" as const,
+      notes: "",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      videoUrl: null,
+      patient,
+      doctor: { id: slot.doctorId, name: "浦江晋平", specialization: "依存症専門医", bio: "", availability: [] },
+      slot
+    };
 
-      await tx.slot.update({
-        where: { id: slot.id },
-        data: { status: SLOT_STATUS_BOOKED }
-      });
+    // モックデータに追加（実際のDBには保存しない）
+    mockAppointments.push(appointment);
+    slot.isBooked = true;
+    slot.isAvailable = false;
 
-      if (input.consents?.length) {
-        await tx.consent.createMany({
-          data: input.consents.map((consent) => ({
-            patientId: patient.id,
-            appointmentId: appointment.id,
-            type: consentMap[consent.type],
-            version: consent.version,
-            ip,
-            ua: request.headers.get("user-agent") ?? undefined
-          }))
-        });
-      }
-
-      await tx.auditLog.create({
-        data: {
-          action: "created_appointment",
-          appointmentId: appointment.id,
-          target: `Appointment:${appointment.id}`,
-          meta: JSON.stringify({ slotId: slot.id, type: input.type })
-        }
-      });
-
-      return { appointment, patient };
-    });
+    const result = { appointment, patient };
 
     await sendDemoNotification("appointment.created", {
       appointmentId: result.appointment.id,

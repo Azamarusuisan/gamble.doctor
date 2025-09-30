@@ -48,7 +48,7 @@ export async function GET(req: NextRequest) {
     });
 
     // 同期ステータスを生成
-    const syncStatus = upcomingAppointments.map(appointment => {
+    const syncStatus = upcomingAppointments.map((appointment: any) => {
       const metadata = appointment.metadata as any || {};
       return {
         id: appointment.id,

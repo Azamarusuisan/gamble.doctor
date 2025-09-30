@@ -321,7 +321,7 @@ export async function PUT(req: NextRequest) {
           entityType: "video",
           metadata: {
             recordingUrl,
-            recordingDuration: statusUpdate.duration,
+            recordingDuration: (statusUpdate as any).duration,
             availableUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString() // 30日間有効
           }
         }
@@ -332,7 +332,7 @@ export async function PUT(req: NextRequest) {
       success: true,
       action,
       roomId,
-      status: statusUpdate.status || roomData.status,
+      status: (statusUpdate as any).status || roomData.status,
       recordingUrl,
       message: `ビデオルームを${action === 'start' ? '開始' : action === 'end' ? '終了' : action}しました`
     });

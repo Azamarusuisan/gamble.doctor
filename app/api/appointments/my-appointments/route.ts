@@ -70,7 +70,7 @@ export async function GET(req: NextRequest) {
     });
 
     // レスポンスの整形
-    const formattedAppointments = appointments.map(appointment => ({
+    const formattedAppointments = appointments.map((appointment: any) => ({
       id: appointment.id,
       type: appointment.type,
       status: appointment.status,

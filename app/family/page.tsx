@@ -228,7 +228,7 @@ export default function FamilyConsultationPage() {
         </Card>
       </Section>
 
-      <Section>
+      <Section title="">
         <div className="rounded-2xl bg-gradient-to-r from-teal-600 to-blue-600 p-8 text-center text-white">
           <h2 className="mb-4 text-3xl font-bold">まずはお気軽にご相談ください</h2>
           <p className="mb-8 text-lg">

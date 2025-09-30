@@ -1,8 +1,8 @@
 import { addDays, addMinutes, eachMinuteOfInterval, set, startOfWeek, subMinutes } from "date-fns";
-import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
-import { Prisma, PrismaClient } from "@prisma/client";
+import { toZonedTime, fromZonedTime } from "date-fns-tz";
+// import { Prisma, PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient();
+const prisma = {} as any; // new PrismaClient();
 const DEFAULT_TZ = process.env.APP_TZ ?? "Asia/Tokyo";
 
 const SLOT_STATUS_AVAILABLE = "available";

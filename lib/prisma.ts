@@ -1,9 +1,34 @@
-import { PrismaClient } from '@prisma/client'
+// モックモード: Prismaは使用しません
 
-const globalForPrisma = globalThis as unknown as {
-  prisma: PrismaClient | undefined
-}
-
-export const prisma = globalForPrisma.prisma ?? new PrismaClient()
-
-if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
+export const prisma = {
+  $transaction: async (fn: any) => await fn(prisma),
+  appointment: {
+    findFirst: async () => null,
+    findMany: async () => [],
+    findUnique: async () => null,
+    create: async () => ({ id: 'mock', status: 'confirmed' }),
+    update: async () => ({ id: 'mock', status: 'confirmed' })
+  },
+  slot: {
+    findFirst: async () => null,
+    findMany: async () => [],
+    findUnique: async () => null,
+    create: async () => ({ id: 'mock' }),
+    update: async () => ({ id: 'mock' }),
+    createMany: async () => ({ count: 0 })
+  },
+  patient: {
+    findFirst: async () => null,
+    create: async () => ({ id: 'mock', name: 'Mock Patient', email: 'mock@example.com' })
+  },
+  inquiry: {
+    findMany: async () => [],
+    create: async () => ({ id: 'mock' })
+  },
+  auditLog: {
+    create: async () => ({ id: 'mock' })
+  },
+  consent: {
+    createMany: async () => ({ count: 0 })
+  }
+} as any;

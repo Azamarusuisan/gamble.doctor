@@ -69,7 +69,7 @@ export async function PUT(req: NextRequest) {
     }
 
     // トランザクションで予約変更処理
-    const result = await prisma.$transaction(async (tx) => {
+    const result = await prisma.$transaction(async (tx: any) => {
       // 古いスロットを利用可能にする
       await tx.slot.update({
         where: { id: currentAppointment.slot.id },

@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { prisma } from "@/lib/db";
+import { mockSlots } from "@/lib/mock-data";
 import { SlotQuerySchema } from "@/lib/validation";
 import { errorResponse, ok } from "@/lib/http";
 
@@ -16,30 +16,32 @@ export async function GET(request: NextRequest) {
   }
 
   const input = parsed.data;
-  const where: Record<string, unknown> = {};
 
-  if (input.status) {
-    where.status = statusMap[input.status];
-  }
+  // モックデータからフィルタリング
+  let filteredSlots = mockSlots.filter(slot => {
+    const status = slot.isBooked ? "booked" : slot.isAvailable ? "available" : "held";
 
-  if (input.from || input.to) {
-    where.start = {
-      ...(input.from ? { gte: new Date(input.from) } : {}),
-      ...(input.to ? { lte: new Date(input.to) } : {})
-    };
-  }
+    if (input.status && status !== statusMap[input.status]) {
+      return false;
+    }
 
-  const slots = await prisma.slot.findMany({
-    where,
-    orderBy: { start: "asc" }
+    if (input.from && slot.startTime < new Date(input.from)) {
+      return false;
+    }
+
+    if (input.to && slot.startTime > new Date(input.to)) {
+      return false;
+    }
+
+    return true;
   });
 
   return ok({
-    items: slots.map((slot) => ({
+    items: filteredSlots.map((slot) => ({
       id: slot.id,
-      start: slot.start.toISOString(),
-      end: slot.end.toISOString(),
-      status: slot.status
+      start: slot.startTime.toISOString(),
+      end: slot.endTime.toISOString(),
+      status: slot.isBooked ? "booked" : slot.isAvailable ? "available" : "held"
     }))
   });
 }

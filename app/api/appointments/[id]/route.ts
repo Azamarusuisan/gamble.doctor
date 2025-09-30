@@ -88,7 +88,7 @@ export async function DELETE(_: NextRequest, { params }: { params: { id: string 
     return errorResponse(404, "NOT_FOUND", "予約が見つかりません");
   }
 
-  await prisma.$transaction(async (tx) => {
+  await prisma.$transaction(async (tx: any) => {
     await tx.appointment.update({
       where: { id: params.id },
       data: { status: "canceled" }
