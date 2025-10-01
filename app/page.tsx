@@ -2,11 +2,10 @@ import Link from "next/link";
 import { Section } from "@/ui/Section";
 import { Card } from "@/ui/Card";
 import { SectionZigzag } from "@/ui/SectionZigzag";
-import { Stepper } from "@/ui/Stepper";
 import { TicketCard } from "@/ui/TicketCard";
 import { FaqTiles } from "@/ui/FaqTiles";
 import { ScrollCTA } from "@/ui/ScrollCTA";
-import { IntegratedInquiryForm } from "./(public)/components/IntegratedInquiryForm";
+import { Stepper } from "@/ui/Stepper";
 
 const flowSteps = [
   {
@@ -83,10 +82,10 @@ export default function HomePage() {
               {/* CTA */}
               <div className="flex flex-col sm:flex-row gap-3">
                 <Link
-                  href="/#inquiry"
+                  href="/book"
                   className="inline-flex items-center justify-center px-6 py-3.5 bg-[#176B5B] text-white font-medium rounded-xl transition-all duration-200 hover:bg-[#1a7f68] focus:outline-none focus:ring-2 focus:ring-[#176B5B] focus:ring-offset-2 shadow-lg"
                 >
-                  まずは匿名で相談
+                  今すぐ予約
                 </Link>
                 <Link
                   href="/pricing"
@@ -128,6 +127,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
 
       {/* Key Features */}
       <section className="section bg-slate-50">
@@ -193,44 +193,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Flow - 利用の流れ */}
-      <section className="section">
-        <div className="container">
-          <div className="text-center mb-16">
-            <h2 className="section-title">ご利用の流れ</h2>
-            <p className="section-subtitle">
-              匿名相談から診療開始まで、オンラインで完結
-            </p>
-          </div>
-
-          <div className="max-w-3xl mx-auto">
-            <Stepper
-              steps={[
-                {
-                  number: 1,
-                  title: "匿名相談・予約",
-                  description: "フォームまたはLINEで匿名相談。48時間以内に返信します。希望日時を調整し、初診予約を確定。"
-                },
-                {
-                  number: 2,
-                  title: "初診オンライン面談",
-                  description: "専門医とビデオ通話で初診。現在の状況・治療方針・費用を説明します(初診8,800円)。"
-                },
-                {
-                  number: 3,
-                  title: "継続フォロー",
-                  description: "定期診療+心理士面談+金融整理の伴走で回復をサポート。家族面談も随時対応可能。"
-                }
-              ]}
-            />
-          </div>
-
-          <div className="mt-12 text-center">
-            <Link href="/flow" className="btn-primary">詳しい流れを見る</Link>
-          </div>
-        </div>
-      </section>
-
       <SectionZigzag
         side="image-right"
         headline='"やめたい気持ち"が揺れても、仕組みで続けられる。'
@@ -284,7 +246,6 @@ export default function HomePage() {
                 "治療進捗の確認",
                 "処方箋の発行"
               ]}
-              highlighted
               note="24時間前までキャンセル無料"
             />
 
@@ -314,7 +275,7 @@ export default function HomePage() {
           <div className="text-center mb-16">
             <h2 className="section-title">よくある質問</h2>
             <p className="section-subtitle">
-              詳細はFAQページをご覧ください。迷ったら匿名相談からどうぞ。
+              詳細はFAQページをご覧ください。お気軽にお問い合わせください。
             </p>
           </div>
 
@@ -332,8 +293,8 @@ export default function HomePage() {
       <ScrollCTA
         primaryText="今すぐ予約"
         primaryHref="/book"
-        secondaryText="匿名相談"
-        secondaryHref="/#inquiry"
+        secondaryText="料金を見る"
+        secondaryHref="/pricing"
         showAfterScroll={400}
       />
     </div>
