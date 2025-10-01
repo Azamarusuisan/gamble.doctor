@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { Section } from "@/ui/Section";
 import { CalendarCheck, MessageSquare, Video, Building2 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
 
 const steps = [
   {
@@ -33,92 +32,54 @@ const steps = [
 ];
 
 export default function FlowPage() {
-  const [activeStep, setActiveStep] = useState(0);
-  const stepRefs = useRef<(HTMLDivElement | null)[]>([]);
-
-  useEffect(() => {
-    const observers = stepRefs.current.map((ref, index) => {
-      if (!ref) return null;
-
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              setActiveStep(index);
-            }
-          });
-        },
-        { threshold: 0.5 }
-      );
-
-      observer.observe(ref);
-      return observer;
-    });
-
-    return () => {
-      observers.forEach((observer) => observer?.disconnect());
-    };
-  }, []);
-
   return (
     <Section
       title="診療の流れ"
       description="すべてオンラインで完結。専門医が最後まで伴走します。"
     >
-      <div className="max-w-4xl mx-auto px-4">
-        <div className="relative">
-          {/* 進行バー */}
-          <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-slate-200">
+      <div className="max-w-6xl mx-auto px-4">
+        <div className="grid md:grid-cols-4 gap-8">
+          {steps.map((step, index) => (
             <div
-              className="w-full bg-gradient-to-b from-brand-primary to-brand-accent transition-all duration-500 ease-out"
-              style={{ height: `${(activeStep / (steps.length - 1)) * 100}%` }}
-            />
-          </div>
+              key={step.number}
+              className="group relative"
+              style={{ animationDelay: `${index * 100}ms` }}
+            >
+              {/* 矢印（最後以外） */}
+              {index < steps.length - 1 && (
+                <div className="hidden md:block absolute -right-4 top-24 z-0">
+                  <svg width="32" height="24" viewBox="0 0 32 24" fill="none">
+                    <path d="M0 12H30M30 12L20 2M30 12L20 22" stroke="#cbd5e1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+              )}
 
-          {/* ステップ */}
-          <div className="space-y-16">
-            {steps.map((step, index) => (
-              <div
-                key={step.number}
-                ref={(el) => { stepRefs.current[index] = el; }}
-                className="relative pl-20 group"
-              >
-                {/* 番号バッジ */}
-                <div className={`absolute left-0 w-16 h-16 rounded-full flex items-center justify-center transition-all duration-500 ${
-                  activeStep >= index
-                    ? 'bg-gradient-to-br from-brand-primary to-brand-accent text-white scale-110 shadow-lg'
-                    : 'bg-white border-2 border-slate-200 text-slate-400'
-                }`}>
-                  <span className="text-2xl font-bold">{step.number}</span>
+              {/* カード */}
+              <div className="relative bg-white rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-slate-100">
+                {/* 大きな番号 */}
+                <div className="text-7xl font-bold text-slate-100 absolute top-4 right-6 group-hover:text-brand-primary/20 transition-colors duration-300">
+                  {step.number}
                 </div>
 
-                {/* カード */}
-                <div className={`bg-white rounded-2xl p-8 shadow-md transition-all duration-500 ${
-                  activeStep >= index
-                    ? 'opacity-100 translate-x-0'
-                    : 'opacity-50 translate-x-4'
-                }`}>
-                  <div className="flex items-start gap-6">
-                    <div className="flex-shrink-0">
-                      <div className={`w-16 h-16 rounded-xl flex items-center justify-center transition-all duration-500 ${
-                        activeStep >= index
-                          ? 'bg-gradient-to-br from-teal-50 to-cyan-50'
-                          : 'bg-slate-50'
-                      }`}>
-                        <step.Icon className={`w-8 h-8 transition-colors duration-500 ${
-                          activeStep >= index ? 'text-brand-primary' : 'text-slate-400'
-                        }`} strokeWidth={1.5} />
-                      </div>
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="text-2xl font-bold text-slate-900 mb-3">{step.title}</h3>
-                      <p className="text-slate-600 leading-relaxed">{step.description}</p>
-                    </div>
+                {/* アイコン */}
+                <div className="relative mb-6">
+                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-teal-50 to-cyan-50 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <step.Icon className="w-8 h-8 text-brand-primary" strokeWidth={1.5} />
                   </div>
                 </div>
+
+                {/* タイトル */}
+                <h3 className="relative text-xl font-bold text-slate-900 mb-3">
+                  {step.title}
+                </h3>
+
+                {/* 説明 */}
+                <p className="relative text-sm text-slate-600 leading-relaxed">
+                  {step.description}
+                </p>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </div>
 
