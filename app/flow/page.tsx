@@ -1,146 +1,115 @@
-import Image from "next/image";
+"use client";
+
+import Link from "next/link";
 import { Section } from "@/ui/Section";
+import { CalendarCheck, MessageSquare, Video, Building2 } from "lucide-react";
 
 const steps = [
   {
     number: 1,
-    title: "匿名相談",
-    duration: "15分",
-    detail: "フォームで状況を共有。ご家族のみの相談もOK。",
-    prep: "メールまたはSMS連絡先",
-    image: "/images/診断申し込み.png"
+    title: "診療受付",
+    description: "カレンダーから希望日時を選択して予約を行います。",
+    Icon: CalendarCheck
   },
   {
     number: 2,
-    title: "オンライン問診",
-    duration: "30分",
-    detail: "看護師・心理士がヒアリングし、流れと費用をご案内。",
-    prep: "本人確認書類、健康保険証（任意）",
-    image: "/images/無料相談.png?v=2"
+    title: "お呼び出し",
+    description: "診療までの待ち時間に必要情報の登録をお願いします。順番になりましたらSMSでお呼び出しします。",
+    Icon: MessageSquare
   },
   {
     number: 3,
-    title: "初診",
-    duration: "45分",
-    detail: "専門医が診察し、依存の段階と治療方針を提示。",
-    prep: "カメラ付き端末、静かな環境",
-    image: "/images/診察.png"
+    title: "オンライン診療",
+    description: "ドクターとビデオ通話にてオンライン診療を行います。ドクターの指示に従って受診してください。",
+    Icon: Video
   },
   {
     number: 4,
-    title: "支援計画",
-    duration: "30分",
-    detail: "行動制限・家族支援・債務整理などを組み合わせた計画を提案。",
-    prep: "家計メモ、同行支援の希望（任意）",
-    image: "/images/診断申し込み.png"
-  },
-  {
-    number: 5,
-    title: "フォローアップ",
-    duration: "30分",
-    detail: "再発予防プログラムや家族会など継続支援を実施。",
-    prep: "次回予約候補",
-    image: "/images/無料相談.png?v=2"
+    title: "お薬の受け取り/お支払い",
+    description: "診療後、クリニックより処方薬が発行されます。指定された受取方法にてお薬をお受け取りください。また、お支払い金額が確定します。",
+    Icon: Building2
   }
 ];
 
 export default function FlowPage() {
   return (
-    <div>
-      <Section
-        title="安心の診療プロセス"
-        description="初回のご相談から継続的なサポートまで、すべてオンラインで完結。専門医とスタッフが、あなたのペースに合わせて丁寧に寄り添います。"
-      >
-        {/* Desktop: 横並びステッパー */}
-        <div className="hidden md:block">
-          <div className="relative">
-            {/* 繋ぐ線 */}
-            <div className="absolute top-32 left-0 right-0 h-0.5 bg-slate-200 -z-10" style={{left: "10%", right: "10%"}}></div>
+    <Section
+      title="診療の流れ"
+      description="すべてオンラインで完結。専門医が最後まで伴走します。"
+    >
+      <div className="max-w-6xl mx-auto px-4">
+        <div className="relative grid md:grid-cols-4 gap-8 pb-32">
+          {/* 円環の線 */}
+          <svg className="hidden md:block absolute left-0 top-0 w-full pointer-events-none" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid meet" style={{ zIndex: 0, height: '100%' }}>
+            <defs>
+              <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+                <polygon points="0 0, 8 3, 0 6" fill="#60D5EC" />
+              </marker>
+            </defs>
+            {/* 1→2 */}
+            <line x1="230" y1="100" x2="380" y2="100" stroke="#60D5EC" strokeWidth="2" strokeDasharray="8 8" markerEnd="url(#arrowhead)" className="flow-line" />
+            {/* 2→3 */}
+            <line x1="530" y1="100" x2="680" y2="100" stroke="#60D5EC" strokeWidth="2" strokeDasharray="8 8" markerEnd="url(#arrowhead)" className="flow-line" />
+            {/* 3→4 */}
+            <line x1="830" y1="100" x2="980" y2="100" stroke="#60D5EC" strokeWidth="2" strokeDasharray="8 8" markerEnd="url(#arrowhead)" className="flow-line" />
+            {/* 4→1 (下を回る曲線) */}
+            <path d="M 1000 130 Q 1050 130, 1050 300 Q 1050 450, 600 480 Q 150 450, 150 300 Q 150 130, 200 130" stroke="#60D5EC" strokeWidth="2" strokeDasharray="8 8" fill="none" markerEnd="url(#arrowhead)" className="flow-line" />
+          </svg>
 
-            <div className="flex items-start justify-between gap-4 px-4">
-              {steps.map((step) => (
-                <div key={step.number} className="flex flex-col items-center flex-1 max-w-[200px]">
-                  <div className="relative w-48 h-48 rounded-full bg-white border-2 border-slate-200 flex items-center justify-center overflow-hidden shadow-lg mb-6 transition-all duration-300 hover:border-brand-teal hover:shadow-xl hover:scale-105">
-                    <Image
-                      src={step.image}
-                      alt={step.title}
-                      width={192}
-                      height={192}
-                      className="w-full h-full object-cover"
-                      loading="eager"
-                      quality={75}
-                    />
-                    <div className="absolute top-2 left-2 w-8 h-8 rounded-full bg-brand-teal text-white flex items-center justify-center text-sm font-bold">
-                      {step.number}
-                    </div>
-                  </div>
-                  <h3 className="text-lg font-bold text-slate-900 text-center mb-1">{step.title}</h3>
-                  <p className="text-sm text-brand-teal font-semibold mb-2">{step.duration}</p>
-                  <p className="text-sm text-slate-600 text-center leading-relaxed">{step.detail}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+          <style jsx>{`
+            @keyframes flow-line {
+              0% {
+                stroke-dashoffset: 0;
+              }
+              100% {
+                stroke-dashoffset: -16;
+              }
+            }
 
-        {/* Mobile: 縦並びステッパー */}
-        <div className="md:hidden space-y-6">
+            :global(.flow-line) {
+              animation: flow-line 2s linear infinite;
+            }
+          `}</style>
+
           {steps.map((step, index) => (
-            <div key={step.number} className="relative">
-              {index < steps.length - 1 && (
-                <div className="absolute left-6 top-24 bottom-0 w-0.5 bg-slate-200 -z-10"></div>
-              )}
-              <div className="flex gap-4">
-                <div className="relative w-24 h-24 rounded-full bg-white border-2 border-slate-200 flex items-center justify-center overflow-hidden shadow-lg shrink-0">
-                  <Image
-                    src={step.image}
-                    alt={step.title}
-                    width={96}
-                    height={96}
-                    className="w-full h-full object-cover"
-                    loading="eager"
-                    quality={75}
-                  />
-                  <div className="absolute top-1 left-1 w-6 h-6 rounded-full bg-brand-teal text-white flex items-center justify-center text-xs font-bold">
-                    {step.number}
-                  </div>
-                </div>
-                <div className="flex-1 pt-2">
-                  <h3 className="text-lg font-bold text-slate-900 mb-1">{step.title}</h3>
-                  <p className="text-sm text-brand-teal font-semibold mb-2">{step.duration}</p>
-                  <p className="text-sm text-slate-600 leading-relaxed mb-2">{step.detail}</p>
-                  <p className="text-xs text-slate-500">準備物: {step.prep}</p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </Section>
-
-      {/* 詳細カード */}
-      <section className="mx-auto w-full max-w-7xl px-6 py-24 sm:px-8 md:py-28 lg:px-12">
-        <div className="grid gap-8 md:grid-cols-2">
-          {steps.map((step) => (
-            <div key={step.number} className="rounded-3xl border border-slate-200 bg-white p-8 md:p-12 shadow-sm transition-shadow duration-300 hover:shadow-md">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-full bg-brand-teal text-white flex items-center justify-center text-lg font-bold">
+            <div
+              key={step.number}
+              className="relative animate-fadeIn"
+              style={{ animationDelay: `${index * 150}ms` }}
+            >
+              {/* カード */}
+              <div className="relative z-10 bg-white rounded-2xl p-6 text-center flex flex-col h-full shadow-md hover:shadow-lg transition-all">
+                {/* 番号 */}
+                <div className="text-4xl font-bold text-sky-400 mb-3">
                   {step.number}
                 </div>
-                <div>
-                  <h3 className="text-xl font-bold text-slate-900">{step.title}</h3>
-                  <p className="text-sm text-brand-teal font-semibold">{step.duration}</p>
+
+                {/* アイコン */}
+                <div className="mb-4 flex justify-center">
+                  <div className="w-20 h-20 rounded-full bg-gradient-to-br from-teal-50 to-cyan-50 flex items-center justify-center">
+                    <step.Icon className="w-10 h-10 text-brand-primary" strokeWidth={1.5} />
+                  </div>
                 </div>
-              </div>
-              <p className="text-[17px] text-slate-600 leading-8 mb-4">{step.detail}</p>
-              <div className="pt-4 border-t border-slate-100">
-                <p className="text-sm text-slate-500">
-                  <span className="font-semibold text-slate-700">準備物:</span> {step.prep}
+
+                {/* タイトル */}
+                <h3 className="text-base font-bold text-slate-900 mb-3">
+                  {step.title}
+                </h3>
+
+                {/* 説明 */}
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  {step.description}
                 </p>
               </div>
             </div>
           ))}
         </div>
-      </section>
-    </div>
+      </div>
+
+      <div className="mt-16 flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <Link href="/book" className="btn-primary">予約する</Link>
+        <Link href="/pricing" className="btn-secondary">料金を見る</Link>
+      </div>
+    </Section>
   );
 }
