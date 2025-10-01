@@ -55,7 +55,7 @@ export default function FlowPage() {
               )}
 
               {/* カード */}
-              <div className="relative bg-white rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-slate-100">
+              <div className="relative bg-white rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-slate-100 h-full flex flex-col">
                 {/* 大きな番号 */}
                 <div className="text-7xl font-bold text-slate-100 absolute top-4 right-6 group-hover:text-brand-primary/20 transition-colors duration-300">
                   {step.number}
