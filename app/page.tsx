@@ -6,6 +6,7 @@ import { TicketCard } from "@/ui/TicketCard";
 import { FaqTiles } from "@/ui/FaqTiles";
 import { ScrollCTA } from "@/ui/ScrollCTA";
 import { Stepper } from "@/ui/Stepper";
+import { SymptomCarousel } from "@/ui/SymptomCarousel";
 
 const flowSteps = [
   {
@@ -128,6 +129,8 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* 症状カルーセル */}
+      <SymptomCarousel />
 
       {/* Key Features */}
       <section className="section bg-slate-50">
