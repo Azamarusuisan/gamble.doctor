@@ -17,7 +17,7 @@ const pricing = [
     title: "再診",
     price: "5,500",
     duration: "30分",
-    popular: true,
+    popular: false,
     features: [
       "オンライン診療",
       "回復プログラムの進捗レビュー",
