@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Section } from "@/ui/Section";
 import { CalendarCheck, MessageSquare, Video, Building2 } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
 const steps = [
   {
@@ -32,77 +33,92 @@ const steps = [
 ];
 
 export default function FlowPage() {
+  const [activeStep, setActiveStep] = useState(0);
+  const stepRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    const observers = stepRefs.current.map((ref, index) => {
+      if (!ref) return null;
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setActiveStep(index);
+            }
+          });
+        },
+        { threshold: 0.5 }
+      );
+
+      observer.observe(ref);
+      return observer;
+    });
+
+    return () => {
+      observers.forEach((observer) => observer?.disconnect());
+    };
+  }, []);
+
   return (
     <Section
       title="診療の流れ"
       description="すべてオンラインで完結。専門医が最後まで伴走します。"
     >
-      <div className="max-w-6xl mx-auto px-4">
-        <div className="relative grid md:grid-cols-4 gap-8 pb-32">
-          {/* 円環の線 */}
-          <svg className="hidden md:block absolute left-0 top-0 w-full pointer-events-none" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid meet" style={{ zIndex: 0, height: '100%' }}>
-            <defs>
-              <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
-                <polygon points="0 0, 8 3, 0 6" fill="#60D5EC" />
-              </marker>
-            </defs>
-            {/* 1→2 */}
-            <line x1="230" y1="100" x2="380" y2="100" stroke="#60D5EC" strokeWidth="2" strokeDasharray="8 8" markerEnd="url(#arrowhead)" className="flow-line" />
-            {/* 2→3 */}
-            <line x1="530" y1="100" x2="680" y2="100" stroke="#60D5EC" strokeWidth="2" strokeDasharray="8 8" markerEnd="url(#arrowhead)" className="flow-line" />
-            {/* 3→4 */}
-            <line x1="830" y1="100" x2="980" y2="100" stroke="#60D5EC" strokeWidth="2" strokeDasharray="8 8" markerEnd="url(#arrowhead)" className="flow-line" />
-            {/* 4→1 (下を回る曲線) */}
-            <path d="M 1000 130 Q 1050 130, 1050 300 Q 1050 450, 600 480 Q 150 450, 150 300 Q 150 130, 200 130" stroke="#60D5EC" strokeWidth="2" strokeDasharray="8 8" fill="none" markerEnd="url(#arrowhead)" className="flow-line" />
-          </svg>
-
-          <style jsx>{`
-            @keyframes flow-line {
-              0% {
-                stroke-dashoffset: 0;
-              }
-              100% {
-                stroke-dashoffset: -16;
-              }
-            }
-
-            :global(.flow-line) {
-              animation: flow-line 2s linear infinite;
-            }
-          `}</style>
-
-          {steps.map((step, index) => (
+      <div className="max-w-4xl mx-auto px-4">
+        <div className="relative">
+          {/* 進行バー */}
+          <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-slate-200">
             <div
-              key={step.number}
-              className="relative animate-fadeIn"
-              style={{ animationDelay: `${index * 150}ms` }}
-            >
-              {/* カード */}
-              <div className="relative z-10 bg-white rounded-2xl p-6 text-center flex flex-col h-full shadow-md hover:shadow-lg transition-all">
-                {/* 番号 */}
-                <div className="text-4xl font-bold text-sky-400 mb-3">
-                  {step.number}
+              className="w-full bg-gradient-to-b from-brand-primary to-brand-accent transition-all duration-500 ease-out"
+              style={{ height: `${(activeStep / (steps.length - 1)) * 100}%` }}
+            />
+          </div>
+
+          {/* ステップ */}
+          <div className="space-y-16">
+            {steps.map((step, index) => (
+              <div
+                key={step.number}
+                ref={(el) => { stepRefs.current[index] = el; }}
+                className="relative pl-20 group"
+              >
+                {/* 番号バッジ */}
+                <div className={`absolute left-0 w-16 h-16 rounded-full flex items-center justify-center transition-all duration-500 ${
+                  activeStep >= index
+                    ? 'bg-gradient-to-br from-brand-primary to-brand-accent text-white scale-110 shadow-lg'
+                    : 'bg-white border-2 border-slate-200 text-slate-400'
+                }`}>
+                  <span className="text-2xl font-bold">{step.number}</span>
                 </div>
 
-                {/* アイコン */}
-                <div className="mb-4 flex justify-center">
-                  <div className="w-20 h-20 rounded-full bg-gradient-to-br from-teal-50 to-cyan-50 flex items-center justify-center">
-                    <step.Icon className="w-10 h-10 text-brand-primary" strokeWidth={1.5} />
+                {/* カード */}
+                <div className={`bg-white rounded-2xl p-8 shadow-md transition-all duration-500 ${
+                  activeStep >= index
+                    ? 'opacity-100 translate-x-0'
+                    : 'opacity-50 translate-x-4'
+                }`}>
+                  <div className="flex items-start gap-6">
+                    <div className="flex-shrink-0">
+                      <div className={`w-16 h-16 rounded-xl flex items-center justify-center transition-all duration-500 ${
+                        activeStep >= index
+                          ? 'bg-gradient-to-br from-teal-50 to-cyan-50'
+                          : 'bg-slate-50'
+                      }`}>
+                        <step.Icon className={`w-8 h-8 transition-colors duration-500 ${
+                          activeStep >= index ? 'text-brand-primary' : 'text-slate-400'
+                        }`} strokeWidth={1.5} />
+                      </div>
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-2xl font-bold text-slate-900 mb-3">{step.title}</h3>
+                      <p className="text-slate-600 leading-relaxed">{step.description}</p>
+                    </div>
                   </div>
                 </div>
-
-                {/* タイトル */}
-                <h3 className="text-base font-bold text-slate-900 mb-3">
-                  {step.title}
-                </h3>
-
-                {/* 説明 */}
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  {step.description}
-                </p>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
 
