@@ -8,25 +8,25 @@ const steps = [
   {
     number: 1,
     title: "診療受付",
-    description: "カレンダーから希望日時を選択して予約を行います。",
+    description: "カレンダーから希望日時を選択して予約",
     Icon: CalendarCheck
   },
   {
     number: 2,
     title: "お呼び出し",
-    description: "診療までの待ち時間に必要情報の登録をお願いします。順番になりましたらSMSでお呼び出しします。",
+    description: "必要情報を登録後、SMSでお呼び出し",
     Icon: MessageSquare
   },
   {
     number: 3,
     title: "オンライン診療",
-    description: "ドクターとビデオ通話にてオンライン診療を行います。ドクターの指示に従って受診してください。",
+    description: "ビデオ通話で医師の診療を受診",
     Icon: Video
   },
   {
     number: 4,
     title: "お薬の受け取り/お支払い",
-    description: "診療後、クリニックより処方薬が発行されます。指定された受取方法にてお薬をお受け取りください。また、お支払い金額が確定します。",
+    description: "処方薬の受け取りとお支払い",
     Icon: Building2
   }
 ];
