@@ -64,21 +64,31 @@ export function ScreeningForm() {
 
   return (
     <div className="space-y-6">
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-6">
         {questions.map((question, index) => (
-          <div key={question} className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-            <p className="text-sm font-semibold text-brand-blue">Q{index + 1}. {question}</p>
-            <div className="mt-3 flex flex-wrap gap-3">
+          <div key={question} className="rounded-3xl border border-slate-200 bg-white p-6 md:p-8 shadow-sm">
+            <p className="text-base md:text-lg font-bold text-slate-900 mb-4">
+              Q{index + 1}. {question}
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               {choices.map((choice) => (
-                <label key={choice.value} className="flex items-center gap-2 text-sm text-slate-600">
-                  <input type="radio" name={`q${index + 1}`} value={choice.value} defaultChecked={choice.value === 0} />
-                  {choice.label}
+                <label key={choice.value} className="relative cursor-pointer">
+                  <input
+                    type="radio"
+                    name={`q${index + 1}`}
+                    value={choice.value}
+                    defaultChecked={choice.value === 0}
+                    className="peer sr-only"
+                  />
+                  <div className="rounded-xl border-2 border-slate-200 bg-white px-4 py-4 text-center text-sm font-medium text-slate-700 transition-all hover:border-brand-primary hover:bg-brand-primary/5 peer-checked:border-brand-primary peer-checked:bg-brand-primary peer-checked:text-white peer-checked:shadow-md">
+                    {choice.label}
+                  </div>
                 </label>
               ))}
             </div>
           </div>
         ))}
-        <button type="submit" className="btn-primary w-full" disabled={loading}>
+        <button type="submit" className="btn-primary w-full py-4 text-base" disabled={loading}>
           {loading ? "判定中..." : "結果を見る"}
         </button>
       </form>
@@ -87,14 +97,11 @@ export function ScreeningForm() {
         <div className="rounded-3xl border border-brand-teal bg-brand-light/60 p-6">
           <h3 className="text-lg font-semibold text-brand-blue">リスク判定: {result.risk}</h3>
           <p className="mt-2 text-sm text-slate-600">
-            判定結果は医療行為ではありません。詳しい評価は診療時に行います。必要に応じて予約または匿名相談をご利用ください。
+            判定結果は医療行為ではありません。詳しい評価は診療時に行います。
           </p>
-          <div className="mt-4 flex gap-3">
-            <a href="/book" className="btn-primary">
+          <div className="mt-4">
+            <a href="/book" className="btn-primary inline-block">
               予約ページへ
-            </a>
-            <a href="#anonymous-inquiry" className="btn-secondary">
-              匿名相談フォームへ
             </a>
           </div>
         </div>
