@@ -90,13 +90,16 @@ export default function PricingPage() {
                 ))}
               </ul>
 
-              <button className={`w-full rounded-full py-4 font-semibold transition-all duration-200 ${
-                plan.popular
-                  ? 'bg-brand-teal text-white hover:bg-emerald-600 hover:scale-[0.98] shadow-sm'
-                  : 'border-2 border-slate-200 text-slate-700 hover:border-brand-teal hover:text-brand-teal hover:scale-[0.98]'
-              }`}>
+              <a
+                href="/book"
+                className={`block w-full rounded-full py-4 font-semibold text-center transition-all duration-200 ${
+                  plan.popular
+                    ? 'bg-brand-teal text-white hover:bg-emerald-600 hover:scale-[0.98] shadow-sm'
+                    : 'border-2 border-slate-200 text-slate-700 hover:border-brand-teal hover:text-brand-teal hover:scale-[0.98]'
+                }`}
+              >
                 予約する
-              </button>
+              </a>
             </div>
           ))}
         </div>

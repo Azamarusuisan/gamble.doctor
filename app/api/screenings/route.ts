@@ -4,8 +4,8 @@ import { ScreeningCreateSchema } from "@/lib/validation";
 import { errorResponse, ok } from "@/lib/http";
 
 function judgeRisk(score: number) {
-  if (score <= 3) return "Low" as const;
-  if (score <= 7) return "Moderate" as const;
+  if (score <= 7) return "Low" as const;
+  if (score <= 14) return "Moderate" as const;
   return "High" as const;
 }
 

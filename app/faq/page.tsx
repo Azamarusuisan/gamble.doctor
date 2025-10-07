@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { ChevronDown } from "lucide-react";
 
 const faqItems = [
   {
@@ -37,57 +38,152 @@ const faqItems = [
 
 export default function FAQPage() {
   const [query, setQuery] = useState("");
-  const [category, setCategory] = useState("すべて");
+  const [openCategories, setOpenCategories] = useState<Set<string>>(new Set());
+  const [openQuestions, setOpenQuestions] = useState<Set<string>>(new Set());
 
-  const categories = useMemo(() => ["すべて", ...new Set(faqItems.map((item) => item.category))], []);
-
-  const filtered = useMemo(() => {
-    return faqItems.filter((item) => {
-      const matchesCategory = category === "すべて" || item.category === category;
-      const matchesQuery = query
-        ? item.question.includes(query) || item.answer.includes(query)
-        : true;
-      return matchesCategory && matchesQuery;
+  // カテゴリごとにグループ化
+  const groupedByCategory = useMemo(() => {
+    const filtered = faqItems.filter((item) => {
+      if (!query) return true;
+      return item.question.includes(query) || item.answer.includes(query) || item.category.includes(query);
     });
-  }, [category, query]);
+
+    const groups = new Map<string, typeof faqItems>();
+    filtered.forEach((item) => {
+      if (!groups.has(item.category)) {
+        groups.set(item.category, []);
+      }
+      groups.get(item.category)!.push(item);
+    });
+
+    return Array.from(groups.entries());
+  }, [query]);
+
+  const toggleCategory = (category: string) => {
+    setOpenCategories((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(category)) {
+        newSet.delete(category);
+      } else {
+        newSet.add(category);
+      }
+      return newSet;
+    });
+  };
+
+  const toggleQuestion = (question: string) => {
+    setOpenQuestions((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(question)) {
+        newSet.delete(question);
+      } else {
+        newSet.add(question);
+      }
+      return newSet;
+    });
+  };
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
       <div className="text-center">
         <h1 className="section-title">FAQ</h1>
         <p className="section-subtitle">困ったときは匿名相談または予約ページからご連絡ください。</p>
       </div>
-      <div className="mt-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+
+      <div className="mt-8">
         <input
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           placeholder="キーワードで検索"
-          className="md:max-w-md"
+          className="w-full"
         />
-        <select value={category} onChange={(event) => setCategory(event.target.value)} className="md:w-48">
-          {categories.map((item) => (
-            <option key={item} value={item}>
-              {item}
-            </option>
-          ))}
-        </select>
       </div>
-      <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {filtered.map((item, index) => (
-          <div key={item.question} className="card animate-fade-in" style={{ animationDelay: `${index * 60}ms` }}>
-            <span className="inline-block rounded-full bg-brand-light px-3 py-1 text-xs font-semibold text-brand-teal mb-3">
-              {item.category}
-            </span>
-            <h3 className="text-lg font-semibold text-slate-900 mb-3">{item.question}</h3>
-            <p className="text-[15px] leading-relaxed text-slate-600">{item.answer}</p>
-          </div>
-        ))}
+
+      <div className="mt-10 space-y-4">
+        {groupedByCategory.map(([category, items]) => {
+          const isCategoryOpen = openCategories.has(category);
+
+          return (
+            <div key={category} className="rounded-2xl md:rounded-3xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+              {/* カテゴリヘッダー */}
+              <button
+                onClick={() => toggleCategory(category)}
+                className="w-full flex items-center justify-between p-5 md:p-6 text-left transition-all duration-200 hover:bg-slate-50 active:scale-[0.99]"
+              >
+                <div className="flex items-center gap-3">
+                  <span className="inline-block rounded-full bg-brand-light px-3 py-1 text-xs md:text-sm font-semibold text-brand-teal">
+                    {category}
+                  </span>
+                  <span className="text-sm text-slate-500">
+                    {items.length}件
+                  </span>
+                </div>
+                <ChevronDown
+                  className={`w-5 h-5 md:w-6 md:h-6 text-brand-teal transition-transform duration-300 ${
+                    isCategoryOpen ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+
+              {/* カテゴリ配下の質問リスト */}
+              {isCategoryOpen && (
+                <div className="border-t border-slate-100">
+                  {items.map((item, index) => {
+                    const isQuestionOpen = openQuestions.has(item.question);
+
+                    return (
+                      <div
+                        key={item.question}
+                        className={`${index !== 0 ? "border-t border-slate-100" : ""}`}
+                      >
+                        {/* 質問 */}
+                        <button
+                          onClick={() => toggleQuestion(item.question)}
+                          className="w-full flex items-start justify-between gap-4 p-5 md:p-6 text-left transition-all duration-200 hover:bg-slate-50 active:scale-[0.99]"
+                        >
+                          <div className="flex items-start gap-3 flex-1">
+                            <span className="text-brand-primary font-bold text-lg md:text-xl flex-shrink-0 mt-0.5">
+                              Q
+                            </span>
+                            <span className="text-sm md:text-base font-semibold text-slate-900 leading-relaxed">
+                              {item.question}
+                            </span>
+                          </div>
+                          <ChevronDown
+                            className={`w-5 h-5 text-slate-400 transition-transform duration-300 flex-shrink-0 mt-1 ${
+                              isQuestionOpen ? "rotate-180" : ""
+                            }`}
+                          />
+                        </button>
+
+                        {/* 回答 */}
+                        {isQuestionOpen && (
+                          <div className="px-5 md:px-6 pb-5 md:pb-6 pt-0">
+                            <div className="flex items-start gap-3 bg-brand-light/30 rounded-xl p-4 md:p-5">
+                              <span className="text-brand-teal font-bold text-lg md:text-xl flex-shrink-0">
+                                A
+                              </span>
+                              <p className="text-sm md:text-base text-slate-700 leading-relaxed">
+                                {item.answer}
+                              </p>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
-      {filtered.length === 0 ? (
-        <p className="mt-10 rounded-3xl border border-dashed border-brand-teal bg-white p-6 text-sm text-slate-600">
+
+      {groupedByCategory.length === 0 && (
+        <p className="mt-10 rounded-2xl md:rounded-3xl border border-dashed border-brand-teal bg-white p-6 text-sm md:text-base text-slate-600 text-center">
           該当する質問が見つかりませんでした。匿名相談フォームから直接お問い合わせください。
         </p>
-      ) : null}
+      )}
     </div>
   );
 }
