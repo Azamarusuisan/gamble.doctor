@@ -72,7 +72,7 @@ export default function HomePage() {
         ></div>
 
         {/* コンテンツコンテナ - z-10で暗幕より前面 */}
-        <div className="container relative z-10 mx-auto max-w-screen-xl px-8 md:px-14 py-20 mt-16">
+        <div className="container relative z-10 mx-auto max-w-screen-xl px-8 md:px-14 py-20 mt-32 md:mt-16">
           {/* 左寄せレイアウト（max-w-3xlで幅制限） */}
           <div className="max-w-3xl">
             {/* H1 - drop-shadowで背景から浮かせる */}
@@ -86,35 +86,35 @@ export default function HomePage() {
               オンライン診療サービス「ギャンブルドクター」
             </p>
 
-            {/* 特徴カード3列 - 透明白で背景を活かす、等幅grid */}
-            <div className="md:grid md:grid-cols-3 gap-6 space-y-4 md:space-y-0 mt-6">
-              {/* カード1 - py-6で上下均等、透明白 */}
-              <div className="bg-white/90 backdrop-blur-sm rounded-xl p-6 shadow-[0_2px_8px_rgba(0,0,0,.06)] h-full flex flex-col items-center md:items-start gap-3">
-                <svg className="w-8 h-8 text-[#00AEEF]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            {/* 特徴カード3列 - モバイルで非表示 */}
+            <div className="hidden md:grid md:grid-cols-3 gap-2 md:gap-6 space-y-2 md:space-y-0 mt-4 md:mt-6">
+              {/* カード1 - モバイルで超コンパクト */}
+              <div className="bg-white/85 backdrop-blur-sm rounded-lg md:rounded-xl p-2 md:p-6 shadow-sm md:shadow-[0_2px_8px_rgba(0,0,0,.06)] flex items-center md:flex-col md:items-start gap-2 md:gap-3">
+                <svg className="w-5 h-5 md:w-8 md:h-8 text-[#00AEEF] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                <p className="text-sm font-medium text-gray-700 leading-relaxed text-center md:text-left">
-                  24時間365日<br />いつでも診療OK
+                <p className="text-sm md:text-sm font-semibold text-gray-800 leading-tight md:leading-relaxed md:text-left">
+                  24時間365日 いつでも診療OK
                 </p>
               </div>
 
               {/* カード2 */}
-              <div className="bg-white/90 backdrop-blur-sm rounded-xl p-6 shadow-[0_2px_8px_rgba(0,0,0,.06)] h-full flex flex-col items-center md:items-start gap-3">
-                <svg className="w-8 h-8 text-[#00AEEF]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <div className="bg-white/85 backdrop-blur-sm rounded-lg md:rounded-xl p-2 md:p-6 shadow-sm md:shadow-[0_2px_8px_rgba(0,0,0,.06)] flex items-center md:flex-col md:items-start gap-2 md:gap-3">
+                <svg className="w-5 h-5 md:w-8 md:h-8 text-[#00AEEF] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                 </svg>
-                <p className="text-sm font-medium text-gray-700 leading-relaxed text-center md:text-left">
-                  完全プライバシー<br />保護で安心
+                <p className="text-sm md:text-sm font-semibold text-gray-800 leading-tight md:leading-relaxed md:text-left">
+                  完全プライバシー保護で安心
                 </p>
               </div>
 
               {/* カード3 */}
-              <div className="bg-white/90 backdrop-blur-sm rounded-xl p-6 shadow-[0_2px_8px_rgba(0,0,0,.06)] h-full flex flex-col items-center md:items-start gap-3">
-                <svg className="w-8 h-8 text-[#00AEEF]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <div className="bg-white/85 backdrop-blur-sm rounded-lg md:rounded-xl p-2 md:p-6 shadow-sm md:shadow-[0_2px_8px_rgba(0,0,0,.06)] flex items-center md:flex-col md:items-start gap-2 md:gap-3">
+                <svg className="w-5 h-5 md:w-8 md:h-8 text-[#00AEEF] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
-                <p className="text-sm font-medium text-gray-700 leading-relaxed text-center md:text-left">
-                  専門医による<br />丁寧な診療
+                <p className="text-sm md:text-sm font-semibold text-gray-800 leading-tight md:leading-relaxed md:text-left">
+                  専門医による丁寧な診療
                 </p>
               </div>
             </div>
