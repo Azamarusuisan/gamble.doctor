@@ -14,7 +14,7 @@ export default function CheckPage() {
           <h3 className="text-base font-semibold text-brand-blue">スコアの目安</h3>
           <ul className="mt-3 space-y-2 text-sm">
             <li className="flex items-start gap-2">
-              <span className="text-green-600 font-bold">●</span>
+              <span className="text-blue-600 font-bold">●</span>
               <span><strong>0〜7点:</strong> 問題なし</span>
             </li>
             <li className="flex items-start gap-2">
@@ -43,7 +43,7 @@ export default function CheckPage() {
             <h3 className="text-base font-semibold text-brand-blue">スコアの目安</h3>
             <ul className="mt-3 space-y-2 text-sm">
               <li className="flex items-start gap-2">
-                <span className="text-green-600 font-bold">●</span>
+                <span className="text-blue-600 font-bold">●</span>
                 <span><strong>0〜7点:</strong> 問題なし</span>
               </li>
               <li className="flex items-start gap-2">

@@ -7,6 +7,7 @@ import { FaqTiles } from "@/ui/FaqTiles";
 import { ScrollCTA } from "@/ui/ScrollCTA";
 import { Stepper } from "@/ui/Stepper";
 import { SymptomCarousel } from "@/ui/SymptomCarousel";
+import { ScrollReveal } from "@/ui/ScrollReveal";
 
 const flowSteps = [
   {
@@ -49,66 +50,85 @@ const faqHighlights = [
 export default function HomePage() {
   return (
     <div>
-      {/* Hero Section */}
-      <section className="hero relative min-h-[600px] md:min-h-[700px] bg-slate-900 overflow-hidden">
-        {/* 背景画像 + グラデーションオーバーレイ - レスポンシブ対応 */}
-        <div className="absolute inset-0">
-          {/* モバイル用画像（病気、面接） - md未満で表示 */}
-          <img
-            src="/病気、面接.png"
-            alt="オンライン診療イメージ（モバイル）"
-            className="block md:hidden w-full h-full object-cover object-center"
-            loading="eager"
-          />
+      {/* Hero Section - 背景動画＋暗幕で可読性確保 */}
+      <section className="hero relative overflow-hidden py-20">
+        {/* 背景動画 */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover z-0"
+        >
+          <source src="/59146891-cb47-4038-b29e-cb902be6b20a.mp4" type="video/mp4" />
+        </video>
 
-          {/* PC用画像（横長）- md以上で表示 */}
-          <img
-            src="/images/team-hero.jpg"
-            alt="オンライン診療イメージ（PC）"
-            className="hidden md:block w-full h-full object-cover object-center"
-            loading="eager"
-            width="1920"
-            height="1080"
-          />
+        {/* 暗幕オーバーレイ: 上部35%→中間15%→下部透明で白文字の可読性を確保 */}
+        <div
+          className="absolute inset-0 pointer-events-none z-0"
+          style={{
+            background: "linear-gradient(180deg, rgba(0,0,0,.35) 0%, rgba(0,0,0,.15) 40%, rgba(0,0,0,0) 70%)"
+          }}
+        ></div>
 
-          {/* グラデーションオーバーレイ */}
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-900/70 via-slate-900/40 to-slate-900/10" />
-        </div>
+        {/* コンテンツコンテナ - z-10で暗幕より前面 */}
+        <div className="container relative z-10 mx-auto max-w-screen-xl px-8 md:px-14 py-20 mt-16">
+          {/* 左寄せレイアウト（max-w-3xlで幅制限） */}
+          <div className="max-w-3xl">
+            {/* H1 - drop-shadowで背景から浮かせる */}
+            <h1 className="text-4xl md:text-5xl font-bold leading-tight text-white drop-shadow-[0_1px_2px_rgba(0,0,0,.40)]">
+              本気でギャンブルを<br />
+              辞めたいあなたへ
+            </h1>
 
-        {/* コンテンツ */}
-        <div className="relative container mx-auto px-6 md:px-8">
-          <div className="grid md:grid-cols-2 gap-12 items-center min-h-[600px] md:min-h-[700px]">
-            {/* 左カラム：テキスト */}
-            <div className="pt-48 pb-32 md:pt-56 md:pb-40 max-w-[560px] space-y-8 motion-safe:animate-fade-in">
-              {/* H1 */}
-              <h1 className="text-[32px] md:text-[40px] font-semibold leading-[1.2] tracking-tight text-white">
-                今日やめるを、<br />続けられる。
-              </h1>
+            {/* サブコピー - 白85%透明度 */}
+            <p className="text-base font-medium text-white/85 mt-4">
+              オンライン診療サービス「ギャンブルドクター」
+            </p>
 
-              {/* 補足 */}
-              <p className="text-[17px] md:text-[18px] leading-[1.6] text-white/95">
-                初回相談からフォローまでオンライン。専門医と心理士が、回復の道筋を一緒に作ります。
-              </p>
+            {/* 特徴カード3列 - 透明白で背景を活かす、等幅grid */}
+            <div className="md:grid md:grid-cols-3 gap-6 space-y-4 md:space-y-0 mt-6">
+              {/* カード1 - py-6で上下均等、透明白 */}
+              <div className="bg-white/90 backdrop-blur-sm rounded-xl p-6 shadow-[0_2px_8px_rgba(0,0,0,.06)] h-full flex flex-col items-center md:items-start gap-3">
+                <svg className="w-8 h-8 text-[#00AEEF]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <p className="text-sm font-medium text-gray-700 leading-relaxed text-center md:text-left">
+                  24時間365日<br />いつでも診療OK
+                </p>
+              </div>
 
-              {/* CTA */}
-              <div className="flex flex-col sm:flex-row gap-3">
-                <Link
-                  href="/book"
-                  className="inline-flex items-center justify-center px-6 py-3.5 bg-[#176B5B] text-white font-medium rounded-xl transition-all duration-200 hover:bg-[#1a7f68] focus:outline-none focus:ring-2 focus:ring-[#176B5B] focus:ring-offset-2 shadow-lg"
-                >
-                  今すぐ予約
-                </Link>
-                <Link
-                  href="/pricing"
-                  className="inline-flex items-center justify-center px-6 py-3.5 border-2 border-white/80 text-white font-medium rounded-xl transition-all duration-200 hover:bg-white/10 hover:border-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-900"
-                >
-                  料金を見る
-                </Link>
+              {/* カード2 */}
+              <div className="bg-white/90 backdrop-blur-sm rounded-xl p-6 shadow-[0_2px_8px_rgba(0,0,0,.06)] h-full flex flex-col items-center md:items-start gap-3">
+                <svg className="w-8 h-8 text-[#00AEEF]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+                <p className="text-sm font-medium text-gray-700 leading-relaxed text-center md:text-left">
+                  完全プライバシー<br />保護で安心
+                </p>
+              </div>
+
+              {/* カード3 */}
+              <div className="bg-white/90 backdrop-blur-sm rounded-xl p-6 shadow-[0_2px_8px_rgba(0,0,0,.06)] h-full flex flex-col items-center md:items-start gap-3">
+                <svg className="w-8 h-8 text-[#00AEEF]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                <p className="text-sm font-medium text-gray-700 leading-relaxed text-center md:text-left">
+                  専門医による<br />丁寧な診療
+                </p>
               </div>
             </div>
 
-            {/* 右カラム：画像スペース（画像は背景で表示） */}
-            <div className="hidden md:block" />
+            {/* メインCTA - 最強の視認性: グラデーション、hover浮き上がり */}
+            <div className="mt-6">
+              <Link
+                href="/book"
+                aria-label="今すぐギャンブル依存症のオンライン診療を受ける"
+                className="inline-flex items-center justify-center w-[min(420px,100%)] h-14 px-8 rounded-full bg-gradient-to-r from-[#00AEEF] to-[#00C6FF] text-white font-semibold text-base shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black/20"
+              >
+                今すぐオンライン診療を受ける
+              </Link>
+            </div>
           </div>
         </div>
       </section>
@@ -140,17 +160,20 @@ export default function HomePage() {
       </section>
 
       {/* 症状カルーセル */}
-      <SymptomCarousel />
+      <ScrollReveal>
+        <SymptomCarousel />
+      </ScrollReveal>
 
       {/* Key Features */}
-      <section className="section bg-slate-50">
-        <div className="container">
-          <div className="text-center mb-16">
-            <h2 className="section-title">
-              4つの特徴
-            </h2>
-            <p className="section-subtitle">
-              オンライン中心で、回復までしっかりサポート
+      <ScrollReveal>
+        <section className="section bg-slate-50">
+          <div className="container">
+            <div className="text-center mb-16">
+              <h2 className="section-title">
+                4つの特徴
+              </h2>
+              <p className="section-subtitle">
+                オンライン中心で、回復までしっかりサポート
             </p>
           </div>
 
@@ -205,8 +228,10 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      </ScrollReveal>
 
-      <SectionZigzag
+      <ScrollReveal>
+        <SectionZigzag
         side="image-right"
         headline='"やめたい気持ち"が揺れても、仕組みで続けられる。'
         subcopy="専門医による定期診療と心理士面談、金融整理の伴走で、回復の道筋をつくります。自分一人で抱え込まなくて大丈夫です。"
@@ -224,9 +249,11 @@ export default function HomePage() {
         ctaSecondary={{ label: "料金を確認", href: "/pricing" }}
         image={{ src: "/images/診察.png", alt: "オンライン診療イメージ" }}
       />
+      </ScrollReveal>
 
       {/* Pricing - 料金 */}
-      <section className="section bg-slate-50">
+      <ScrollReveal>
+        <section className="section bg-slate-50">
         <div className="container">
           <div className="text-center mb-16">
             <h2 className="section-title">料金プラン</h2>
@@ -281,9 +308,11 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      </ScrollReveal>
 
       {/* FAQ */}
-      <section className="section">
+      <ScrollReveal>
+        <section className="section">
         <div className="container">
           <div className="text-center mb-16">
             <h2 className="section-title">よくある質問</h2>
@@ -301,6 +330,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      </ScrollReveal>
 
       {/* Sticky CTA */}
       <ScrollCTA

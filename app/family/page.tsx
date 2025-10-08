@@ -72,15 +72,15 @@ export default function FamilyConsultationPage() {
               </p>
               <ul className="space-y-2 text-sm text-slate-600">
                 <li className="flex items-start">
-                  <span className="mr-2 text-teal-600">✓</span>
+                  <span className="mr-2 text-blue-600">✓</span>
                   <span>依存症のメカニズムを理解する</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="mr-2 text-teal-600">✓</span>
+                  <span className="mr-2 text-blue-600">✓</span>
                   <span>回復には時間がかかることを認識する</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="mr-2 text-teal-600">✓</span>
+                  <span className="mr-2 text-blue-600">✓</span>
                   <span>再発は回復過程の一部であることを理解する</span>
                 </li>
               </ul>
@@ -122,11 +122,11 @@ export default function FamilyConsultationPage() {
                   <span>嘘を見逃す、隠蔽に協力する</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="mr-2 text-teal-600">✓</span>
+                  <span className="mr-2 text-blue-600">✓</span>
                   <span>治療への参加を促す</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="mr-2 text-teal-600">✓</span>
+                  <span className="mr-2 text-blue-600">✓</span>
                   <span>回復への努力を支援する</span>
                 </li>
               </ul>
@@ -142,15 +142,15 @@ export default function FamilyConsultationPage() {
               </p>
               <ul className="space-y-2 text-sm text-slate-600">
                 <li className="flex items-start">
-                  <span className="mr-2 text-teal-600">✓</span>
+                  <span className="mr-2 text-blue-600">✓</span>
                   <span>家族会への参加を検討する</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="mr-2 text-teal-600">✓</span>
+                  <span className="mr-2 text-blue-600">✓</span>
                   <span>カウンセリングを受ける</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="mr-2 text-teal-600">✓</span>
+                  <span className="mr-2 text-blue-600">✓</span>
                   <span>趣味や休息の時間を確保する</span>
                 </li>
               </ul>
@@ -174,11 +174,11 @@ export default function FamilyConsultationPage() {
       >
         <div className="grid gap-6 md:grid-cols-3">
           <Card>
-            <h3 className="mb-3 text-lg font-semibold text-teal-700">オンライン相談</h3>
+            <h3 className="mb-3 text-lg font-semibold text-blue-700">オンライン相談</h3>
             <p className="mb-4 text-sm text-slate-600">
               ビデオ通話で気軽に相談できます。初回相談は30分程度です。
             </p>
-            <Link href="/book" className="inline-block w-full rounded-lg bg-teal-600 px-4 py-2 text-center text-white hover:bg-teal-700">
+            <Link href="/book" className="inline-block w-full rounded-lg bg-blue-600 px-4 py-2 text-center text-white hover:bg-blue-700">
               予約する
             </Link>
           </Card>
@@ -211,15 +211,15 @@ export default function FamilyConsultationPage() {
           <div className="space-y-4">
             <div className="flex justify-between border-b pb-2">
               <span className="font-semibold">家族相談（初回）</span>
-              <span className="text-xl font-bold text-teal-600">5,500円</span>
+              <span className="text-xl font-bold text-blue-600">5,500円</span>
             </div>
             <div className="flex justify-between border-b pb-2">
               <span className="font-semibold">家族相談（2回目以降）</span>
-              <span className="text-xl font-bold text-teal-600">3,300円</span>
+              <span className="text-xl font-bold text-blue-600">3,300円</span>
             </div>
             <div className="flex justify-between border-b pb-2">
               <span className="font-semibold">家族会参加費</span>
-              <span className="text-xl font-bold text-teal-600">無料</span>
+              <span className="text-xl font-bold text-blue-600">無料</span>
             </div>
             <p className="text-sm text-slate-600">
               ※保険適用の可否は診察時に確認させていただきます
@@ -238,13 +238,13 @@ export default function FamilyConsultationPage() {
           <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link
               href="/book"
-              className="inline-block rounded-lg bg-white px-8 py-3 font-semibold text-teal-600 hover:bg-gray-100"
+              className="inline-block rounded-lg bg-white px-8 py-3 font-semibold text-blue-600 hover:bg-gray-100"
             >
               今すぐ予約する
             </Link>
             <Link
               href="/#anonymous"
-              className="inline-block rounded-lg border-2 border-white px-8 py-3 font-semibold text-white hover:bg-white hover:text-teal-600"
+              className="inline-block rounded-lg border-2 border-white px-8 py-3 font-semibold text-white hover:bg-white hover:text-blue-600"
             >
               匿名で相談する
             </Link>

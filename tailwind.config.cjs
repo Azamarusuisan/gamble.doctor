@@ -8,16 +8,16 @@ module.exports = {
     extend: {
       colors: {
         brand: {
-          DEFAULT: "#10B981",    // emerald-500
-          weak: "#A7F3D0",       // emerald-200
-          primary: "#10B981",
-          secondary: "#0EA5E9",  // sky-500
-          accent: "#059669",     // emerald-600
-          light: "#D1FAE5",
-          dark: "#065F46"
+          DEFAULT: "#00AEEF",    // brand-blue
+          weak: "#BFEBFF",       // light blue
+          primary: "#00AEEF",
+          secondary: "#00C6FF",  // lighter blue
+          accent: "#0096D6",     // darker blue
+          light: "#E6F7FF",
+          dark: "#1E355A"
         },
-        "brand-teal": "#10B981",
-        "brand-blue": "#0EA5E9"
+        "brand-teal": "#00AEEF",
+        "brand-blue": "#00AEEF"
       },
       maxWidth: {
         'container': '1120px',

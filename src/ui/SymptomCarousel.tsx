@@ -17,13 +17,13 @@ export function SymptomCarousel() {
   const repeatedSymptoms = [...symptoms, ...symptoms, ...symptoms];
 
   return (
-    <section className="bg-white py-12 overflow-hidden border-b border-slate-200">
-      <div className="container mx-auto px-6 md:px-8">
-        <div className="text-center mb-8">
-          <h2 className="text-xl font-semibold text-slate-900 mb-3">
+    <section className="bg-white py-8 md:py-12 overflow-hidden border-b border-slate-200">
+      <div className="container mx-auto px-4 md:px-8">
+        <div className="text-center mb-6 md:mb-8">
+          <h2 className="text-lg md:text-xl font-semibold text-slate-900 mb-2 md:mb-3">
             こんな症状でお悩みではありませんか？
           </h2>
-          <p className="text-sm text-slate-600">
+          <p className="text-xs md:text-sm text-slate-600">
             これらの症状がある方は、専門医による診療をおすすめします
           </p>
         </div>
@@ -33,7 +33,7 @@ export function SymptomCarousel() {
             {repeatedSymptoms.map((symptom, index) => (
               <div
                 key={index}
-                className="flex-shrink-0 w-80 px-8 py-6 bg-gradient-to-br from-teal-50 to-cyan-50 rounded-2xl border-2 border-teal-100 shadow-lg hover:shadow-xl transition-shadow"
+                className="flex-shrink-0 w-80 px-8 py-6 bg-gradient-to-br from-teal-50 to-cyan-50 rounded-2xl border-2 border-blue-100 shadow-lg hover:shadow-xl transition-shadow"
               >
                 <p className="text-lg font-medium text-slate-800 text-center whitespace-normal">
                   {symptom}
@@ -43,7 +43,7 @@ export function SymptomCarousel() {
           </div>
         </div>
 
-        <div className="mt-10 flex justify-center gap-4">
+        <div className="mt-6 md:mt-10 flex flex-col sm:flex-row justify-center gap-3 md:gap-4">
           <a
             href="/book"
             className="inline-flex items-center justify-center px-6 py-3 bg-brand-primary text-white font-medium rounded-xl transition-all duration-200 hover:bg-brand-primary/90 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2 shadow-lg"

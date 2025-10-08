@@ -1,7 +1,4 @@
-import { NextRequest } from "next/server";
-import { prisma } from "@/lib/db";
-import { ScreeningCreateSchema } from "@/lib/validation";
-import { errorResponse, ok } from "@/lib/http";
+import { NextRequest, NextResponse } from "next/server";
 
 function judgeRisk(score: number) {
   if (score <= 7) return "Low" as const;
@@ -10,34 +7,39 @@ function judgeRisk(score: number) {
 }
 
 export async function POST(request: NextRequest) {
-  let body: unknown;
   try {
-    body = await request.json();
+    const body = await request.json();
+    const { score, answers } = body;
+
+    if (typeof score !== "number" || score < 0 || score > 21) {
+      return NextResponse.json(
+        { error: { message: "スコアが不正です" } },
+        { status: 400 }
+      );
+    }
+
+    const risk = judgeRisk(score);
+    const screeningId = `scr_${Date.now()}`;
+
+    // モックデータとしてコンソールに出力
+    console.log("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+    console.log("📊 [DEMO] セルフチェック結果");
+    console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+    console.log(`📝 スクリーニングID: ${screeningId}`);
+    console.log(`📈 スコア: ${score}点`);
+    console.log(`⚠️  リスクレベル: ${risk}`);
+    console.log(`📋 回答: ${JSON.stringify(answers)}`);
+    console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
+
+    return NextResponse.json(
+      { id: screeningId, risk },
+      { status: 201 }
+    );
   } catch (error) {
-    return errorResponse(400, "VALIDATION_ERROR", "JSON の解析に失敗しました");
-  }
-
-  const parsed = ScreeningCreateSchema.safeParse(body);
-  if (!parsed.success) {
-    return errorResponse(400, "VALIDATION_ERROR", "入力内容を確認してください", parsed.error.flatten().fieldErrors);
-  }
-
-  const { score, answers, patientId } = parsed.data;
-  const risk = judgeRisk(score);
-
-  try {
-    const screening = await prisma.screening.create({
-      data: {
-        patientId: patientId ?? undefined,
-        score,
-        answers,
-        risk
-      }
-    });
-
-    return ok({ id: screening.id, risk }, 201);
-  } catch (error) {
-    console.error(error);
-    return errorResponse(500, "INTERNAL_ERROR", "内部エラーが発生しました");
+    console.error("Screening error:", error);
+    return NextResponse.json(
+      { error: { message: "内部エラーが発生しました" } },
+      { status: 500 }
+    );
   }
 }

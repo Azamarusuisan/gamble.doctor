@@ -54,7 +54,7 @@ export function SectionZigzag({
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, 50vw"
               />
-              <div className="absolute inset-0 bg-slate-900/30" />
+              <div className="absolute inset-0 bg-[#00AEEF]/30" />
             </div>
           ) : (
             <div className="relative h-[400px] md:h-[500px] overflow-hidden rounded-3xl border border-slate-200 shadow-lg transition-transform duration-300 hover:scale-[1.02]">

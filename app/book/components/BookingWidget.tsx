@@ -36,6 +36,7 @@ export function BookingWidget() {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [selectedSlot, setSelectedSlot] = useState<Slot | null>(null);
   const [type, setType] = useState<"初診" | "再診">("初診");
+  const [isFamily, setIsFamily] = useState(false);
   const [consentPrivacy, setConsentPrivacy] = useState(false);
   const [consentTelemedicine, setConsentTelemedicine] = useState(false);
   const [result, setResult] = useState<AppointmentResponse | null>(null);
@@ -269,7 +270,14 @@ export function BookingWidget() {
               {/* 家族・支援者カード */}
               <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
                 <label htmlFor="isFamily" className="family-checkbox-row cursor-pointer">
-                  <input id="isFamily" name="isFamily" type="checkbox" className="flex-shrink-0" />
+                  <input
+                    id="isFamily"
+                    name="isFamily"
+                    type="checkbox"
+                    className="flex-shrink-0"
+                    checked={isFamily}
+                    onChange={(e) => setIsFamily(e.target.checked)}
+                  />
                   <div className="family-text">
                     <div className="font-medium text-slate-800 mb-1">
                       家族・支援者として予約する
@@ -406,9 +414,9 @@ export function BookingWidget() {
           <div className="space-y-2 rounded-2xl border border-slate-200 bg-white p-5 text-sm text-slate-600">
             <h3 className="font-semibold text-slate-800">📧 メール送信について</h3>
             <p>
-              予約確認メールとGoogle Meetリンクを記載したメールが送信されました。
+              予約確認メールとGoogle Meetリンクを記載したメールを送信しました。
               <br />
-              <span className="text-xs text-slate-500">※ デモ環境のため、実際のメール送信は行われていません。コンソールをご確認ください。</span>
+              <span className="text-xs text-slate-500">メールが届かない場合は、迷惑メールフォルダをご確認ください。</span>
             </p>
           </div>
 

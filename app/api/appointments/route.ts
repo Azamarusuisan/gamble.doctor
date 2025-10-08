@@ -5,6 +5,8 @@ import { checkRateLimit } from "@/lib/rate-limit";
 import { errorResponse, ok } from "@/lib/http";
 import { sendDemoNotification } from "@/lib/notify";
 import { renderBookingConfirmEmail } from "@/emails/booking-confirm";
+import { sendBookingConfirmationEmail, sendNewBookingNotificationToAdmin } from "@/lib/email";
+import { createDummyMeetLink, createGoogleMeetLink } from "@/lib/google-meet";
 
 const typeMap = {
   初診: "first",
@@ -97,30 +99,86 @@ export async function POST(request: NextRequest) {
       slotId: result.appointment.slotId
     });
 
-    // Google Meetリンクを自動生成してメール送信
-    const meetResponse = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/appointments/meet`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        appointmentId: result.appointment.id
-      })
-    });
+    // Google Meetリンクを生成
+    let meetLink: string | null = null;
 
-    if (meetResponse.ok) {
-      const meetData = await meetResponse.json();
-      console.log('Google Meetリンクが生成されメールが送信されました:', meetData.meetLink);
+    try {
+      // 実際のGoogle Meet APIを使用（環境変数が設定されている場合）
+      if (process.env.GOOGLE_CLIENT_EMAIL && process.env.GOOGLE_PRIVATE_KEY) {
+        const startTime = new Date(slot.start);
+        const endTime = new Date(slot.end);
+
+        meetLink = await createGoogleMeetLink({
+          summary: `ギャンブルドクター - ${input.type === "first" ? "初診" : "再診"}`,
+          description: `患者: ${patient.name}\n診療タイプ: ${input.type === "first" ? "初診" : "再診"}`,
+          startTime,
+          endTime,
+          attendeeEmail: patient.email,
+        });
+      }
+
+      // Google Meet APIが設定されていない場合はダミーリンクを使用
+      if (!meetLink) {
+        meetLink = createDummyMeetLink();
+      }
+
+      // appointmentにvideoUrlを設定
+      result.appointment.videoUrl = meetLink;
+    } catch (error) {
+      console.error('Error generating Google Meet link:', error);
+      // エラーが発生してもダミーリンクを使用して続行
+      meetLink = createDummyMeetLink();
+      result.appointment.videoUrl = meetLink;
     }
 
-    const emailHtml = renderBookingConfirmEmail({
-      name: result.patient.name,
-      date: new Date().toLocaleDateString("ja-JP", { timeZone: "Asia/Tokyo" }),
-      time: new Date().toLocaleTimeString("ja-JP", { timeZone: "Asia/Tokyo", hour: "2-digit", minute: "2-digit" }),
-      doctor: "浦江晋平",
-      videoUrl: result.appointment.videoUrl ?? undefined
-    });
-    console.info("[DEMO EMAIL] booking_confirm", emailHtml.substring(0, 120), "...");
+    // 予約完了メールを送信
+    try {
+      await sendBookingConfirmationEmail({
+        to: patient.email,
+        patientName: patient.name,
+        appointmentDate: new Date(slot.start).toLocaleDateString("ja-JP", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          weekday: "long"
+        }),
+        appointmentTime: new Date(slot.start).toLocaleTimeString("ja-JP", {
+          hour: "2-digit",
+          minute: "2-digit"
+        }),
+        appointmentType: input.type === "first" ? "初診" : "再診",
+        meetLink: meetLink || undefined,
+      });
+      console.log('✅ 予約完了メールを送信しました:', patient.email);
+    } catch (error) {
+      console.error('❌ 予約完了メール送信エラー:', error);
+      // メール送信エラーでも予約は成功として扱う
+    }
+
+    // 管理者への通知メールを送信
+    try {
+      await sendNewBookingNotificationToAdmin({
+        patientName: patient.name,
+        patientEmail: patient.email,
+        patientPhone: patient.phone,
+        appointmentDate: new Date(slot.start).toLocaleDateString("ja-JP", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          weekday: "long"
+        }),
+        appointmentTime: new Date(slot.start).toLocaleTimeString("ja-JP", {
+          hour: "2-digit",
+          minute: "2-digit"
+        }),
+        appointmentType: input.type === "first" ? "初診" : "再診",
+        bookingId: result.appointment.id,
+      });
+      console.log('✅ 管理者通知メールを送信しました');
+    } catch (error) {
+      console.error('❌ 管理者通知メール送信エラー:', error);
+      // メール送信エラーでも予約は成功として扱う
+    }
 
     return ok(
       {

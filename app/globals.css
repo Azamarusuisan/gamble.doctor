@@ -6,6 +6,8 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  /* Android Chrome タップハイライト無効化 */
+  -webkit-tap-highlight-color: transparent;
 }
 
 html, body {
@@ -14,6 +16,8 @@ html, body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
+  /* Android用スムーズスクロール */
+  -webkit-overflow-scrolling: touch;
 }
 
 :root {
@@ -34,13 +38,31 @@ a {
 }
 
 .btn-primary {
-  @apply inline-flex items-center justify-center rounded-2xl px-6 py-3 bg-slate-900 text-white font-medium transition-opacity duration-200 hover:opacity-90 focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:outline-none;
+  @apply inline-flex items-center justify-center rounded-2xl px-6 py-3 bg-[#00AEEF] text-white font-medium transition-opacity duration-200 hover:opacity-90 focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:outline-none;
   min-width: 140px;
+  /* Android用タッチ最適化 */
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+  /* タップ時のアクティブ状態 */
+  &:active {
+    transform: scale(0.98);
+    opacity: 0.85;
+  }
 }
 
 .btn-secondary, .btn-ghost {
   @apply inline-flex items-center justify-center rounded-2xl px-6 py-3 border border-slate-300 text-slate-900 font-medium transition-colors duration-200 hover:bg-slate-50 focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:outline-none;
   min-width: 140px;
+  /* Android用タッチ最適化 */
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+  /* タップ時のアクティブ状態 */
+  &:active {
+    transform: scale(0.98);
+    background-color: rgb(248 250 252);
+  }
 }
 
 .section {
@@ -82,6 +104,26 @@ a {
 
 input, textarea, select {
   @apply w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-base shadow-sm focus:border-brand-primary focus:outline-none focus:ring-0;
+  /* Android用フォーム最適化 */
+  font-size: 16px; /* Android Chromeのズーム防止 */
+  -webkit-appearance: none;
+  appearance: none;
+  touch-action: manipulation;
+}
+
+/* Android用: 日付・時刻入力の最適化 */
+input[type="date"],
+input[type="time"],
+input[type="datetime-local"] {
+  min-height: 44px; /* タッチターゲット最小サイズ */
+}
+
+/* Android用: チェックボックス・ラジオボタンの最適化 */
+input[type="checkbox"],
+input[type="radio"] {
+  min-width: 20px;
+  min-height: 20px;
+  touch-action: manipulation;
 }
 
 label {
@@ -121,6 +163,13 @@ label {
 
 .reservation-form .consent-row input[type="checkbox"] {
   margin-top: 0;                        /* 上マージンをリセット */
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  flex-shrink: 0;
+  pointer-events: auto;                 /* クリック可能にする */
+  -webkit-appearance: auto;             /* ネイティブのチェックボックス表示 */
+  appearance: auto;
 }
 
 /* 3) 右側テキストの幅を確保（細帯に潰れないように） */
@@ -139,9 +188,14 @@ label {
 }
 
 .reservation-form .family-checkbox-row input[type="checkbox"] {
-  margin-top: 0;                        /* マージンをリセット */
-  align-self: start;                    /* チェックボックス自体は上に配置 */
   margin-top: 4px;                      /* 微調整 */
+  align-self: start;                    /* チェックボックス自体は上に配置 */
+  cursor: pointer;
+  pointer-events: auto;                 /* クリック可能にする */
+  -webkit-appearance: auto;             /* ネイティブのチェックボックス表示 */
+  appearance: auto;
+  width: 20px;
+  height: 20px;
 }
 
 .reservation-form .family-checkbox-row .family-text {
@@ -326,4 +380,103 @@ p {
 .animate-fade-in {
   animation: fade-in 0.5s ease-out forwards;
   opacity: 0;
+}
+
+/* スクロールフェードインアニメーション */
+@keyframes scroll-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.scroll-fade-in {
+  opacity: 0;
+  animation: scroll-fade-in 0.8s ease-out forwards;
+}
+
+.scroll-fade-in-delay-1 {
+  opacity: 0;
+  animation: scroll-fade-in 0.8s ease-out 0.1s forwards;
+}
+
+.scroll-fade-in-delay-2 {
+  opacity: 0;
+  animation: scroll-fade-in 0.8s ease-out 0.2s forwards;
+}
+
+.scroll-fade-in-delay-3 {
+  opacity: 0;
+  animation: scroll-fade-in 0.8s ease-out 0.3s forwards;
+}
+
+/* フローティングアニメーション */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes float-delayed {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: float-delayed 3s ease-in-out infinite 1.5s;
+}
+
+/* Android用: スクロールのパフォーマンス最適化 */
+.scroll-container {
+  -webkit-overflow-scrolling: touch;
+  overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+/* Android用: タッチ可能な要素の最小サイズ確保 */
+button,
+a,
+[role="button"],
+[onclick] {
+  min-height: 44px;
+  min-width: 44px;
+  touch-action: manipulation;
+}
+
+/* Android Chrome用: フォーカス時の挙動改善 */
+*:focus-visible {
+  outline: 2px solid #176B5B;
+  outline-offset: 2px;
+}
+
+/* Android用: 画像の最適化 */
+img {
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+/* Android用: セーフエリア対応 */
+@supports (padding: env(safe-area-inset-bottom)) {
+  body {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .sticky-bottom {
+    padding-bottom: calc(env(safe-area-inset-bottom) + 1rem);
+  }
 }

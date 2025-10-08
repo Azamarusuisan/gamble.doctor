@@ -1,4 +1,5 @@
 import { Section } from "@/ui/Section";
+import { ScrollReveal } from "@/ui/ScrollReveal";
 
 const pricing = [
   {
@@ -46,16 +47,17 @@ const methods = [
 ];
 
 const policies = [
-  { icon: "✓", text: "予約の24時間前までは無料でキャンセル可能" },
-  { icon: "⚠️", text: "当日キャンセルは50%（デモ環境では未請求）" },
-  { icon: "ℹ️", text: "診療内容により保険適用の可否が変わります" }
+  "予約の24時間前までは無料でキャンセル可能",
+  "当日キャンセルは50%（デモ環境では未請求）",
+  "診療内容により保険適用の可否が変わります"
 ];
 
 export default function PricingPage() {
   return (
     <div>
-      <Section title="料金プラン" description="明瞭な料金体系で、家計負担を抑えつつ治療に専念できます。">
-        <div className="grid gap-8 md:grid-cols-3">
+      <ScrollReveal>
+        <Section title="料金プラン" description="明瞭な料金体系で、家計負担を抑えつつ治療に専念できます。">
+          <div className="grid gap-8 md:grid-cols-3">
           {pricing.map((plan) => (
             <div
               key={plan.title}
@@ -94,7 +96,7 @@ export default function PricingPage() {
                 href="/book"
                 className={`block w-full rounded-full py-4 font-semibold text-center transition-all duration-200 ${
                   plan.popular
-                    ? 'bg-brand-teal text-white hover:bg-emerald-600 hover:scale-[0.98] shadow-sm'
+                    ? 'bg-brand-teal text-white hover:bg-blue-600 hover:scale-[0.98] shadow-sm'
                     : 'border-2 border-slate-200 text-slate-700 hover:border-brand-teal hover:text-brand-teal hover:scale-[0.98]'
                 }`}
               >
@@ -104,57 +106,10 @@ export default function PricingPage() {
           ))}
         </div>
       </Section>
+      </ScrollReveal>
 
-      {/* 比較表 */}
-      <section className="mx-auto w-full max-w-7xl px-6 py-24 sm:px-8 md:py-28 lg:px-12">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">プラン比較</h2>
-          <p className="text-[17px] text-slate-600">各プランの詳細な比較です</p>
-        </div>
-
-        <div className="overflow-x-auto">
-          <table className="w-full border-collapse rounded-3xl overflow-hidden shadow-sm">
-            <thead>
-              <tr className="bg-slate-50">
-                <th className="px-6 py-4 text-left text-sm font-semibold text-slate-900">項目</th>
-                {pricing.map((plan) => (
-                  <th key={plan.title} className="px-6 py-4 text-center text-sm font-semibold text-slate-900">
-                    {plan.title}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-slate-100">
-              <tr>
-                <td className="px-6 py-4 text-sm text-slate-600">診療時間</td>
-                {pricing.map((plan) => (
-                  <td key={plan.title} className="px-6 py-4 text-center text-sm text-slate-900 font-semibold">
-                    {plan.duration}
-                  </td>
-                ))}
-              </tr>
-              <tr className="bg-slate-50/50">
-                <td className="px-6 py-4 text-sm text-slate-600">料金</td>
-                {pricing.map((plan) => (
-                  <td key={plan.title} className="px-6 py-4 text-center text-sm text-brand-teal font-bold">
-                    ¥{plan.price}
-                  </td>
-                ))}
-              </tr>
-              <tr>
-                <td className="px-6 py-4 text-sm text-slate-600">オンライン対応</td>
-                {pricing.map((plan) => (
-                  <td key={plan.title} className="px-6 py-4 text-center">
-                    <span className="text-brand-accent text-lg">✓</span>
-                  </td>
-                ))}
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <Section title="支払方法" description="デモ決済はStripe互換のモックAPIで動きます。">
+      <ScrollReveal>
+        <Section title="支払方法" description="デモ決済はStripe互換のモックAPIで動きます。">
         <div className="grid gap-6 md:grid-cols-3">
           {methods.map((method) => (
             <div key={method.name} className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm text-center">
@@ -164,19 +119,22 @@ export default function PricingPage() {
           ))}
         </div>
       </Section>
+      </ScrollReveal>
 
-      <Section title="キャンセルポリシー" description="実装は簡易モック。将来は決済ステータス連動を予定しています。">
+      <ScrollReveal>
+        <Section title="キャンセルポリシー" description="実装は簡易モック。将来は決済ステータス連動を予定しています。">
         <div className="rounded-3xl border border-slate-200 bg-white p-8 md:p-12 shadow-sm">
           <ul className="space-y-4">
             {policies.map((policy) => (
-              <li key={policy.text} className="flex items-start gap-3">
-                <span className="text-xl">{policy.icon}</span>
-                <span className="text-[17px] text-slate-600 leading-8">{policy.text}</span>
+              <li key={policy} className="flex items-start gap-3">
+                <span className="text-brand-teal mt-1">•</span>
+                <span className="text-[17px] text-slate-600 leading-8">{policy}</span>
               </li>
             ))}
           </ul>
         </div>
       </Section>
+      </ScrollReveal>
     </div>
   );
 }

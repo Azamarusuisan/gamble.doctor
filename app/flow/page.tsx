@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Section } from "@/ui/Section";
+import { ScrollReveal } from "@/ui/ScrollReveal";
 import { CalendarCheck, MessageSquare, Video, Building2 } from "lucide-react";
 
 const steps = [
@@ -33,13 +34,14 @@ const steps = [
 
 export default function FlowPage() {
   return (
-    <Section
-      title="診療の流れ"
-      description="すべてオンラインで完結。専門医が最後まで伴走します。"
-    >
-      <div className="max-w-6xl mx-auto px-4">
-        <div className="grid md:grid-cols-4 gap-8">
-          {steps.map((step, index) => (
+    <ScrollReveal>
+      <Section
+        title="診療の流れ"
+        description="すべてオンラインで完結。専門医が最後まで伴走します。"
+      >
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="grid md:grid-cols-4 gap-8">
+            {steps.map((step, index) => (
             <div
               key={step.number}
               className="group relative"
@@ -88,5 +90,6 @@ export default function FlowPage() {
         <Link href="/pricing" className="btn-secondary">料金を見る</Link>
       </div>
     </Section>
+    </ScrollReveal>
   );
 }
