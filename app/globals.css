@@ -2,6 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
 :root {
   color-scheme: light;
 }
@@ -10,6 +24,9 @@ body {
   @apply min-h-screen bg-white text-slate-900 font-sans antialiased;
   letter-spacing: 0.02em;
   line-height: 1.8;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
 }
 
 a {
@@ -17,11 +34,13 @@ a {
 }
 
 .btn-primary {
-  @apply inline-flex items-center justify-center rounded-2xl px-5 py-3 bg-slate-900 text-white font-medium transition-opacity duration-200 hover:opacity-90 focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:outline-none;
+  @apply inline-flex items-center justify-center rounded-2xl px-6 py-3 bg-slate-900 text-white font-medium transition-opacity duration-200 hover:opacity-90 focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:outline-none;
+  min-width: 140px;
 }
 
 .btn-secondary, .btn-ghost {
-  @apply inline-flex items-center justify-center rounded-2xl px-5 py-3 border border-slate-300 text-slate-900 font-medium transition-colors duration-200 hover:bg-slate-50 focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:outline-none;
+  @apply inline-flex items-center justify-center rounded-2xl px-6 py-3 border border-slate-300 text-slate-900 font-medium transition-colors duration-200 hover:bg-slate-50 focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:outline-none;
+  min-width: 140px;
 }
 
 .section {
@@ -67,6 +86,68 @@ input, textarea, select {
 
 label {
   @apply text-sm font-medium text-slate-700;
+  /* Safari縦書きバグ対策: 横書きモードを強制 */
+  writing-mode: horizontal-tb !important;
+  direction: ltr;
+  word-break: normal;
+  overflow-wrap: anywhere;
+  white-space: normal;
+  line-break: strict;
+}
+
+/* 予約フォーム全体をスコープに。親にこのクラスを付けてね */
+.reservation-form {
+  /* 何もしない */
+}
+
+/* 1) 縦書き/回転/強制改行を打ち消す */
+.reservation-form * {
+  writing-mode: horizontal-tb !important;
+  text-orientation: mixed !important;
+  transform: none !important;           /* -rotate-90 等を無効化 */
+  word-break: normal !important;        /* break-all を禁止 */
+  overflow-wrap: anywhere;
+  white-space: normal;
+  line-break: strict;
+}
+
+/* 2) 同意行のレイアウトを横2列に（チェックボックス + テキスト） */
+.reservation-form .consent-row {
+  display: grid;
+  grid-template-columns: auto 1fr;      /* 左: チェック, 右: テキスト */
+  align-items: center;                  /* 中央揃え */
+  column-gap: 12px;
+}
+
+.reservation-form .consent-row input[type="checkbox"] {
+  margin-top: 0;                        /* 上マージンをリセット */
+}
+
+/* 3) 右側テキストの幅を確保（細帯に潰れないように） */
+.reservation-form .consent-row .consent-text {
+  min-width: 0;                         /* grid overflow対策 */
+  max-width: 72ch;                      /* 可読幅の上限 */
+  line-height: 1.6;
+}
+
+/* 4) 家族・支援者行も同様に横2列レイアウト */
+.reservation-form .family-checkbox-row {
+  display: grid;
+  grid-template-columns: auto 1fr;      /* 左: チェック, 右: テキスト */
+  align-items: center;                  /* 中央揃え */
+  column-gap: 12px;
+}
+
+.reservation-form .family-checkbox-row input[type="checkbox"] {
+  margin-top: 0;                        /* マージンをリセット */
+  align-self: start;                    /* チェックボックス自体は上に配置 */
+  margin-top: 4px;                      /* 微調整 */
+}
+
+.reservation-form .family-checkbox-row .family-text {
+  min-width: 0;                         /* grid overflow対策 */
+  max-width: 72ch;                      /* 可読幅の上限 */
+  line-height: 1.6;
 }
 
 ::selection {

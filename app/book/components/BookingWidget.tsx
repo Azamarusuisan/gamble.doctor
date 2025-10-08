@@ -126,7 +126,7 @@ export function BookingWidget() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="reservation-form space-y-8">
       {error ? <p className="rounded-2xl bg-red-100 px-4 py-3 text-sm text-red-600">{error}</p> : null}
 
       {step === "date" && (
@@ -264,55 +264,74 @@ export function BookingWidget() {
                 <label htmlFor="dob">生年月日</label>
                 <input id="dob" name="dob" type="date" />
               </div>
-              <div className="flex items-center gap-2 pt-8">
-                <input id="isFamily" name="isFamily" type="checkbox" />
-                <label htmlFor="isFamily">家族・支援者として予約する</label>
-              </div>
             </div>
-            <div>
-              <label className="mb-2 block text-sm font-semibold text-slate-700">診療種別</label>
-              <div className="flex gap-3">
-                <button
-                  type="button"
-                  onClick={() => setType("初診")}
-                  className={`rounded-full px-4 py-2 text-sm ${
-                    type === "初診" ? "bg-brand-blue text-white" : "border border-slate-200"
-                  }`}
-                >
-                  初診
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setType("再診")}
-                  className={`rounded-full px-4 py-2 text-sm ${
-                    type === "再診" ? "bg-brand-blue text-white" : "border border-slate-200"
-                  }`}
-                >
-                  再診
-                </button>
+            <div className="space-y-5 rounded-3xl border-2 border-brand-teal/30 bg-brand-light/40 p-6">
+              {/* 家族・支援者カード */}
+              <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                <label htmlFor="isFamily" className="family-checkbox-row cursor-pointer">
+                  <input id="isFamily" name="isFamily" type="checkbox" className="flex-shrink-0" />
+                  <div className="family-text">
+                    <div className="font-medium text-slate-800 mb-1">
+                      家族・支援者として予約する
+                    </div>
+                    <p className="text-xs text-slate-500">
+                      ご本人ではなく、ご家族や支援者の方が代理で予約される場合はチェックしてください。
+                    </p>
+                  </div>
+                </label>
               </div>
-            </div>
-            <div className="space-y-2 rounded-3xl border border-slate-200 bg-brand-light/60 p-4 text-sm text-slate-600">
-              <label className="flex items-start gap-2">
-                <input type="checkbox" checked={consentPrivacy} onChange={(event) => setConsentPrivacy(event.target.checked)} />
-                <span>
-                  プライバシーポリシー（v1）に同意します。
-                  <br />
-                  <a href="/legal#privacy" className="underline">内容を確認する</a>
-                </span>
-              </label>
-              <label className="flex items-start gap-2">
-                <input
-                  type="checkbox"
-                  checked={consentTelemedicine}
-                  onChange={(event) => setConsentTelemedicine(event.target.checked)}
-                />
-                <span>
-                  オンライン診療同意書（v1）に同意します。
-                  <br />
-                  <a href="/legal#telemedicine" className="underline">内容を確認する</a>
-                </span>
-              </label>
+
+              {/* 診療種別カード */}
+              <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                <label className="block font-medium text-slate-800 mb-3" style={{writingMode: 'horizontal-tb'}}>診療種別</label>
+                <div className="flex gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setType("初診")}
+                    className={`flex-1 rounded-xl px-4 py-3 text-sm font-medium transition ${
+                      type === "初診" ? "bg-brand-teal text-white shadow-md" : "border-2 border-slate-200 bg-slate-50 text-slate-700 hover:border-brand-teal hover:bg-white"
+                    }`}
+                  >
+                    初診
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setType("再診")}
+                    className={`flex-1 rounded-xl px-4 py-3 text-sm font-medium transition ${
+                      type === "再診" ? "bg-brand-teal text-white shadow-md" : "border-2 border-slate-200 bg-slate-50 text-slate-700 hover:border-brand-teal hover:bg-white"
+                    }`}
+                  >
+                    再診
+                  </button>
+                </div>
+              </div>
+
+              {/* 同意チェックボックスカード */}
+              <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                <p className="font-medium text-slate-800 mb-3">同意事項</p>
+                <div className="space-y-3 text-sm text-slate-700">
+                  <label className="consent-row cursor-pointer hover:bg-slate-50 px-3 py-2 rounded-lg transition">
+                    <input
+                      type="checkbox"
+                      checked={consentPrivacy}
+                      onChange={(event) => setConsentPrivacy(event.target.checked)}
+                    />
+                    <span className="consent-text">
+                      プライバシーポリシー（v1）に同意します <a href="/legal#privacy" className="text-brand-teal underline hover:text-brand-blue ml-1">内容を確認する</a>
+                    </span>
+                  </label>
+                  <label className="consent-row cursor-pointer hover:bg-slate-50 px-3 py-2 rounded-lg transition">
+                    <input
+                      type="checkbox"
+                      checked={consentTelemedicine}
+                      onChange={(event) => setConsentTelemedicine(event.target.checked)}
+                    />
+                    <span className="consent-text">
+                      オンライン診療同意書（v1）に同意します <a href="/legal#telemedicine" className="text-brand-teal underline hover:text-brand-blue ml-1">内容を確認する</a>
+                    </span>
+                  </label>
+                </div>
+              </div>
             </div>
             <button type="submit" className="btn-primary w-full">
               予約を確定する
@@ -325,15 +344,75 @@ export function BookingWidget() {
       )}
 
       {step === "complete" && result && selectedSlot && (
-        <div className="space-y-4 rounded-3xl border border-brand-teal bg-brand-light/60 p-6">
-          <h2 className="text-lg font-semibold text-brand-blue">予約が完了しました</h2>
-          <p className="text-sm text-slate-600">
-            予約 ID: {result.id} / ステータス: {result.status}
-          </p>
-          <p className="text-sm text-slate-600">
-            ビデオ通話 URL: {result.videoUrl ?? "準備中（デモ）"}
-          </p>
-          <button onClick={reset} className="btn-secondary">
+        <div className="space-y-6 rounded-3xl border border-brand-teal bg-brand-light/60 p-6">
+          <div className="flex items-center gap-2">
+            <svg className="h-8 w-8 text-brand-teal" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <h2 className="text-xl font-semibold text-brand-blue">予約が完了しました</h2>
+          </div>
+
+          <div className="space-y-3 rounded-2xl border border-slate-200 bg-white p-5">
+            <div className="flex items-start gap-2">
+              <svg className="h-5 w-5 text-slate-500 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              <div>
+                <p className="text-xs text-slate-500">予約ID</p>
+                <p className="text-sm font-mono text-slate-700">{result.id}</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-2">
+              <svg className="h-5 w-5 text-slate-500 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <div>
+                <p className="text-xs text-slate-500">ステータス</p>
+                <span className="inline-block rounded-full bg-brand-teal/20 px-3 py-1 text-xs font-semibold text-brand-teal">
+                  {result.status === "confirmed" ? "確定済み" : result.status}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {result.videoUrl && (
+            <div className="space-y-3 rounded-2xl border-2 border-blue-200 bg-blue-50 p-5">
+              <div className="flex items-center gap-2">
+                <svg className="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
+                <h3 className="font-semibold text-blue-900">Google Meet リンク</h3>
+              </div>
+              <p className="text-xs text-blue-700">
+                診療日時になりましたら、下記のリンクからオンライン診療にご参加ください。
+              </p>
+              <div className="break-all rounded-lg bg-white p-3 text-sm font-mono text-blue-600">
+                {result.videoUrl}
+              </div>
+              <a
+                href={result.videoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block w-full rounded-xl bg-blue-600 px-4 py-3 text-center text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700"
+              >
+                Google Meetを開く
+              </a>
+              <p className="text-xs text-blue-700">
+                ※ このリンクは入力されたメールアドレス宛にも送信されています
+              </p>
+            </div>
+          )}
+
+          <div className="space-y-2 rounded-2xl border border-slate-200 bg-white p-5 text-sm text-slate-600">
+            <h3 className="font-semibold text-slate-800">📧 メール送信について</h3>
+            <p>
+              予約確認メールとGoogle Meetリンクを記載したメールが送信されました。
+              <br />
+              <span className="text-xs text-slate-500">※ デモ環境のため、実際のメール送信は行われていません。コンソールをご確認ください。</span>
+            </p>
+          </div>
+
+          <button onClick={reset} className="btn-secondary w-full">
             続けて別の予約を作成する
           </button>
         </div>

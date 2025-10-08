@@ -50,26 +50,36 @@ export default function HomePage() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="hero relative min-h-[600px] md:min-h-[700px] bg-white overflow-hidden">
-        {/* 背景画像 + グラデーションオーバーレイ */}
+      <section className="hero relative min-h-[600px] md:min-h-[700px] bg-slate-900 overflow-hidden">
+        {/* 背景画像 + グラデーションオーバーレイ - レスポンシブ対応 */}
         <div className="absolute inset-0">
+          {/* モバイル用画像（病気、面接） - md未満で表示 */}
+          <img
+            src="/病気、面接.png"
+            alt="オンライン診療イメージ（モバイル）"
+            className="block md:hidden w-full h-full object-cover object-center"
+            loading="eager"
+          />
+
+          {/* PC用画像（横長）- md以上で表示 */}
           <img
             src="/images/team-hero.jpg"
-            alt="オンライン診療イメージ"
-            className="w-full h-full object-cover"
+            alt="オンライン診療イメージ（PC）"
+            className="hidden md:block w-full h-full object-cover object-center"
             loading="eager"
             width="1920"
             height="1080"
           />
-          {/* 左→右グラデーション（左側暗め → 右側透明） */}
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-900/60 via-slate-900/30 to-slate-900/10" />
+
+          {/* グラデーションオーバーレイ */}
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-900/70 via-slate-900/40 to-slate-900/10" />
         </div>
 
         {/* コンテンツ */}
         <div className="relative container mx-auto px-6 md:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center min-h-[600px] md:min-h-[700px]">
             {/* 左カラム：テキスト */}
-            <div className="py-32 md:py-40 max-w-[560px] space-y-8 motion-safe:animate-fade-in">
+            <div className="pt-48 pb-32 md:pt-56 md:pb-40 max-w-[560px] space-y-8 motion-safe:animate-fade-in">
               {/* H1 */}
               <h1 className="text-[32px] md:text-[40px] font-semibold leading-[1.2] tracking-tight text-white">
                 今日やめるを、<br />続けられる。
