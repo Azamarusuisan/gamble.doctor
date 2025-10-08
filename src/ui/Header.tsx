@@ -21,15 +21,15 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-40 bg-white shadow-[0_1px_0_rgba(0,0,0,0.04)]">
-      <div className="mx-auto flex h-28 max-w-screen-xl items-center justify-between px-8 md:px-14">
+      <div className="mx-auto flex h-32 max-w-screen-xl items-center justify-between px-8 md:px-14">
         {/* ロゴ */}
         <Link href="/" className="flex items-center gap-3">
           <Image
             src="/ギャンブルドクター.jpg"
             alt="ギャンブルドクター - オンライン診療"
-            width={360}
-            height={100}
-            className="h-16 w-auto"
+            width={400}
+            height={111}
+            className="h-20 w-auto"
             priority
           />
         </Link>
