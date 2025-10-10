@@ -60,7 +60,7 @@ export default function HomePage() {
           playsInline
           className="absolute inset-0 w-full h-full object-cover z-0"
         >
-          <source src="/59146891-cb47-4038-b29e-cb902be6b20a.mp4" type="video/mp4" />
+          <source src="/63eeaa01-dfd5-4408-b25e-69dccd6adaae.mp4" type="video/mp4" />
         </video>
 
         {/* 暗幕オーバーレイ: 上部35%→中間15%→下部透明で白文字の可読性を確保 */}

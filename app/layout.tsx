@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Header } from "@/ui/Header";
 import { Footer } from "@/ui/Footer";
-import { ChatBot } from "@/ui/ChatBot";
 
 export const metadata: Metadata = {
   title: "ギャンブルドクター｜ギャンブル依存症オンライン外来",
@@ -34,7 +33,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Header />
         <main className="min-h-screen">{children}</main>
         <Footer />
-        <ChatBot />
       </body>
     </html>
   );
