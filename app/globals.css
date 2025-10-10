@@ -38,8 +38,9 @@ a {
 }
 
 .btn-primary {
-  @apply inline-flex items-center justify-center rounded-2xl px-6 py-3 bg-[#00AEEF] text-white font-medium transition-opacity duration-200 hover:opacity-90 focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:outline-none;
-  min-width: 140px;
+  @apply inline-flex items-center justify-center rounded-2xl px-8 py-4 bg-[#00AEEF] text-white font-medium transition-opacity duration-200 hover:opacity-90 focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:outline-none;
+  min-width: 160px;
+  font-size: 1.125rem;
   /* Android用タッチ最適化 */
   touch-action: manipulation;
   -webkit-user-select: none;
@@ -52,8 +53,9 @@ a {
 }
 
 .btn-secondary, .btn-ghost {
-  @apply inline-flex items-center justify-center rounded-2xl px-6 py-3 border border-slate-300 text-slate-900 font-medium transition-colors duration-200 hover:bg-slate-50 focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:outline-none;
-  min-width: 140px;
+  @apply inline-flex items-center justify-center rounded-2xl px-8 py-4 border border-slate-300 text-slate-900 font-medium transition-colors duration-200 hover:bg-slate-50 focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:outline-none;
+  min-width: 160px;
+  font-size: 1.125rem;
   /* Android用タッチ最適化 */
   touch-action: manipulation;
   -webkit-user-select: none;
@@ -103,9 +105,9 @@ a {
 }
 
 input, textarea, select {
-  @apply w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-base shadow-sm focus:border-brand-primary focus:outline-none focus:ring-0;
+  @apply w-full rounded-2xl border border-slate-300 bg-white px-5 py-4 text-base shadow-sm focus:border-brand-primary focus:outline-none focus:ring-0;
   /* Android用フォーム最適化 */
-  font-size: 16px; /* Android Chromeのズーム防止 */
+  font-size: 1.125rem; /* 1段階大きく */
   -webkit-appearance: none;
   appearance: none;
   touch-action: manipulation;
@@ -127,7 +129,7 @@ input[type="radio"] {
 }
 
 label {
-  @apply text-sm font-medium text-slate-700;
+  @apply text-base font-medium text-slate-700;
   /* Safari縦書きバグ対策: 横書きモードを強制 */
   writing-mode: horizontal-tb !important;
   direction: ltr;

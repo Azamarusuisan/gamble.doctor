@@ -72,11 +72,11 @@ export default function HomePage() {
         ></div>
 
         {/* コンテンツコンテナ - z-10で暗幕より前面 */}
-        <div className="container relative z-10 mx-auto max-w-screen-xl px-8 md:px-14 py-20 mt-32 md:mt-16">
+        <div className="container relative z-10 mx-auto max-w-screen-xl px-6 md:px-14 py-20 mt-32 md:mt-16">
           {/* 左寄せレイアウト（max-w-3xlで幅制限） */}
           <div className="max-w-3xl">
             {/* H1 - drop-shadowで背景から浮かせる */}
-            <h1 className="text-4xl md:text-5xl font-bold leading-tight text-white drop-shadow-[0_1px_2px_rgba(0,0,0,.40)]">
+            <h1 className="text-3xl md:text-4xl font-bold leading-tight text-white drop-shadow-[0_1px_2px_rgba(0,0,0,.40)]">
               本気でギャンブルを<br />
               辞めたいあなたへ
             </h1>

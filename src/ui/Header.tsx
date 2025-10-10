@@ -35,7 +35,7 @@ export function Header() {
         </Link>
 
         {/* デスクトップナビゲーション */}
-        <nav className="hidden space-x-10 text-2xl font-medium text-[#1E355A] md:flex">
+        <nav className="hidden space-x-10 font-medium text-[#1E355A] md:flex" style={{ fontSize: '1.25rem' }}>
           {navItems.map((item) => (
             <Link
               key={item.href}
@@ -54,7 +54,8 @@ export function Header() {
         <Link
           href="/book"
           aria-label="オンライン診療を予約する"
-          className="hidden md:flex items-center rounded-full bg-[#00AEEF] px-6 py-2.5 text-base font-semibold text-white shadow-sm transition-opacity hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-[#00AEEF] focus:ring-offset-2 -translate-y-1"
+          className="hidden md:flex items-center rounded-full bg-[#00AEEF] px-6 py-2.5 font-semibold text-white shadow-sm transition-opacity hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-[#00AEEF] focus:ring-offset-2 -translate-y-1"
+          style={{ fontSize: '1rem' }}
         >
           予約する
         </Link>
